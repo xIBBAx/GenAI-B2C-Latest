@@ -1,22 +1,24 @@
 import datetime
 import json
+import enum
 from typing import Any
 from typing import Literal
-from typing import NotRequired
+from typing_extensions import NotRequired
 from typing import Optional
 from uuid import uuid4
 
-from pydantic import BaseModel
+from pydantic import BaseModel # type: ignore
 from sqlalchemy.orm import validates
 from typing_extensions import TypedDict  # noreorder
 from uuid import UUID
 
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
 
-from fastapi_users_db_sqlalchemy import SQLAlchemyBaseOAuthAccountTableUUID
-from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTableUUID
-from fastapi_users_db_sqlalchemy.access_token import SQLAlchemyBaseAccessTokenTableUUID
-from fastapi_users_db_sqlalchemy.generics import TIMESTAMPAware
+from fastapi_users_db_sqlalchemy import SQLAlchemyBaseOAuthAccountTableUUID # type: ignore
+from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTableUUID # type: ignore
+from fastapi_users_db_sqlalchemy.access_token import SQLAlchemyBaseAccessTokenTableUUID # type: ignore
+from fastapi_users_db_sqlalchemy.generics import TIMESTAMPAware # type: ignore
+from sqlalchemy.sql import func
 from sqlalchemy import Boolean
 from sqlalchemy import DateTime
 from sqlalchemy import desc
@@ -80,7 +82,10 @@ logger = setup_logger()
 
 class Base(DeclarativeBase):
     __abstract__ = True
-
+    
+class MessageTypeEnum(enum.Enum):
+    USER = "USER"
+    ASSISTANT = "ASSISTANT"
 
 class EncryptedString(TypeDecorator):
     impl = LargeBinary
@@ -2408,7 +2413,21 @@ class UsageReport(Base):
 
     requestor = relationship("User")
     file = relationship("PGFileStore")
+    
+class TokenRecord(Base):
+    __tablename__ = "token_record"
 
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
+    user_id: Mapped[UUID] = mapped_column(ForeignKey("user.id"), nullable=False)
+    user_group_id: Mapped[Optional[int]] = mapped_column(ForeignKey("user_group.id"), nullable=True)
+    chat_session_id: Mapped[UUID] = mapped_column(ForeignKey("chat_session.id"), nullable=False)
+    message_id: Mapped[int] = mapped_column(ForeignKey("chat_message.id"), nullable=False)
+    message_type: Mapped[MessageTypeEnum] = mapped_column(Enum(MessageTypeEnum), nullable=False)
+    model_used: Mapped[str] = mapped_column(String, nullable=False)
+    token_count: Mapped[int] = mapped_column(Integer, nullable=False)
+    timestamp: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=True), default=func.now())
+
+    user: Mapped["User"] = relationship("User")
 
 class InputPrompt(Base):
     __tablename__ = "inputprompt"

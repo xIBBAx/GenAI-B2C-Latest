@@ -43,9 +43,9 @@ export default function FunctionalHeader({
             event.preventDefault();
             window.open(
               `/${page}` +
-                (currentChatSession
-                  ? `?assistantId=${currentChatSession.persona_id}`
-                  : ""),
+              (currentChatSession
+                ? `?assistantId=${currentChatSession.persona_id}`
+                : ""),
               "_self"
             );
             break;
@@ -70,9 +70,8 @@ export default function FunctionalHeader({
   };
   return (
     <div
-      className={`left-0 sticky top-0 z-20 w-full relative flex ${
-        removeHeight ? "h-0" : ""
-      }`}
+      className={`left-0 sticky top-0 z-20 w-full relative flex ${removeHeight ? "h-0" : ""
+        }`}
     >
       <div className="items-end flex mt-2 text-text-700 relative flex w-full">
         <LogoWithText
@@ -102,28 +101,24 @@ export default function FunctionalHeader({
             <div
               className={`
             absolute
-            ${
-              documentSidebarVisible &&
-              sidebarToggled &&
-              "left-[calc(50%-75px)]"
-            }
-            ${
-              documentSidebarVisible && !sidebarToggled
-                ? "left-[calc(50%-175px)]"
-                : !documentSidebarVisible && sidebarToggled
-                  ? "left-[calc(50%+100px)]"
-                  : "left-1/2"
-            }
-            ${
-              documentSidebarVisible || sidebarToggled
-                ? "mobile:w-[40vw] max-w-[40vw]"
-                : "mobile:w-[50vw] max-w-[60vw]"
-            }
-            ${
-              settings?.enterpriseSettings?.two_lines_for_chat_header
-                ? "top-0"
-                : "top-1"
-            }
+            ${documentSidebarVisible &&
+                sidebarToggled &&
+                "left-[calc(50%-75px)]"
+                }
+            ${documentSidebarVisible && !sidebarToggled
+                  ? "left-[calc(50%-175px)]"
+                  : !documentSidebarVisible && sidebarToggled
+                    ? "left-[calc(50%+100px)]"
+                    : "left-1/2"
+                }
+            ${documentSidebarVisible || sidebarToggled
+                  ? "mobile:w-[40vw] max-w-[40vw]"
+                  : "mobile:w-[50vw] max-w-[60vw]"
+                }
+            ${settings?.enterpriseSettings?.two_lines_for_chat_header
+                  ? "top-0"
+                  : "top-1"
+                }
             h-8
             -translate-x-1/2
             transition-all duration-300

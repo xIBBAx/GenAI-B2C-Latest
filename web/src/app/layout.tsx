@@ -56,7 +56,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   return {
-    title: enterpriseSettings?.application_name || "Onyx",
+    title: enterpriseSettings?.application_name || "Techpeek AI",
     description: "Question answering for your documents",
     icons: {
       icon: logoLocation,
@@ -123,7 +123,7 @@ export default async function RootLayout({
       <body className={`relative ${inter.variable} font-hanken`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >

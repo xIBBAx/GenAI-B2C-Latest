@@ -2,10 +2,10 @@ import os
 from typing import Type
 from typing_extensions import TypedDict  # noreorder
 
-from sqlalchemy import not_
-from sqlalchemy import or_
-from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy import not_ # type: ignore
+from sqlalchemy import or_ # type: ignore
+from sqlalchemy import select # type: ignore
+from sqlalchemy.orm import Session # type: ignore
 
 from onyx.db.models import Persona
 from onyx.db.models import Tool as ToolDBModel
@@ -45,7 +45,7 @@ BUILT_IN_TOOLS: list[InCodeToolInfo] = [
         in_code_tool_id=ImageGenerationTool.__name__,
         display_name=ImageGenerationTool._DISPLAY_NAME,
     ),
-    # don't show the InternetSearchTool as an option if BING_API_KEY is not available
+    # Only include the InternetSearchTool if Google PSE credentials are set
     *(
         [
             InCodeToolInfo(
@@ -58,7 +58,7 @@ BUILT_IN_TOOLS: list[InCodeToolInfo] = [
                 display_name=InternetSearchTool._DISPLAY_NAME,
             )
         ]
-        if os.environ.get("BING_API_KEY")
+        if os.environ.get("GOOGLE_API_KEY") and os.environ.get("GOOGLE_SEARCH_ENGINE_ID")
         else []
     ),
 ]

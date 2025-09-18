@@ -2,21 +2,21 @@ from collections.abc import Sequence
 from datetime import datetime
 from uuid import UUID
 
-from fastapi import HTTPException
-from sqlalchemy import exists
-from sqlalchemy import func
-from sqlalchemy import not_
-from sqlalchemy import Select
-from sqlalchemy import select
-from sqlalchemy import update
-from sqlalchemy.orm import aliased
-from sqlalchemy.orm import joinedload
-from sqlalchemy.orm import selectinload
-from sqlalchemy.orm import Session
+from fastapi import HTTPException # type: ignore
+from sqlalchemy import exists # type: ignore
+from sqlalchemy import func # type: ignore
+from sqlalchemy import not_ # type: ignore
+from sqlalchemy import Select # type: ignore
+from sqlalchemy import select # type: ignore
+from sqlalchemy import update # type: ignore
+from sqlalchemy.orm import aliased # type: ignore
+from sqlalchemy.orm import joinedload # type: ignore
+from sqlalchemy.orm import selectinload # type: ignore
+from sqlalchemy.orm import Session # type: ignore
 
 from onyx.auth.schemas import UserRole
 from onyx.configs.app_configs import DISABLE_AUTH
-from onyx.configs.chat_configs import BING_API_KEY
+# from onyx.configs.chat_configs import BING_API_KEY
 from onyx.configs.chat_configs import CONTEXT_CHUNKS_ABOVE
 from onyx.configs.chat_configs import CONTEXT_CHUNKS_BELOW
 from onyx.configs.constants import NotificationType
@@ -41,6 +41,7 @@ from onyx.server.features.persona.models import PersonaSharedNotificationData
 from onyx.server.features.persona.models import PersonaUpsertRequest
 from onyx.utils.logger import setup_logger
 from onyx.utils.variable_functionality import fetch_versioned_implementation
+import os
 
 logger = setup_logger()
 
@@ -692,11 +693,11 @@ def update_persona_visibility(
 
 def validate_persona_tools(tools: list[Tool]) -> None:
     for tool in tools:
-        if tool.name == "InternetSearchTool" and not BING_API_KEY:
-            raise ValueError(
-                "Bing API key not found, please contact your Onyx admin to get it added!"
-            )
-
+        if tool.name == "InternetSearchTool":
+            if not os.getenv("GOOGLE_API_KEY") or not os.getenv("GOOGLE_SEARCH_ENGINE_ID"):
+                raise ValueError(
+                    "Google API key not found! Please set GOOGLE_API_KEY and GOOGLE_SEARCH_ENGINE_ID."
+                )
 
 # TODO: since this gets called with every chat message, could it be more efficient to pregenerate
 # a direct mapping indicating whether a user has access to a specific persona?

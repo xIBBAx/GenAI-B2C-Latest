@@ -159,6 +159,8 @@ from onyx.utils.telemetry import mt_cloud_telemetry
 from onyx.utils.timing import log_function_time
 from onyx.utils.timing import log_generator_function_time
 from shared_configs.contextvars import get_current_tenant_id
+from ee.onyx.db.analytics import log_token_usage
+from onyx.db.models import MessageType
 
 logger = setup_logger()
 ERROR_TYPE_CANCELLED = "cancelled"
@@ -623,7 +625,7 @@ def _process_tool_response(
 
     return info_by_subq
 
-
+# Stream chat message objects for token_record
 def stream_chat_message_objects(
     new_msg_req: CreateChatMessageRequest,
     user: User | None,
@@ -791,6 +793,17 @@ def stream_chat_message_objects(
                 files=None,  # Need to attach later for optimization to only load files once in parallel
                 db_session=db_session,
                 commit=False,
+            )
+            
+            # Log token usage for the assistant message
+            log_token_usage(
+                db_session=db_session,
+                user_id=user.id,
+                chat_session_id=chat_session_id,
+                message_id=user_message.id,
+                message_type=MessageType.USER,
+                model_used=llm.config.model_name,
+                token_count=len(llm_tokenizer_encode_func(message_text)), # Count tokens in the user message
             )
             # re-create linear history of messages
             final_msg, history_msgs = create_chat_chain(
@@ -1358,9 +1371,10 @@ def stream_chat_message_objects(
         db_session=db_session,
         chat_session_id=chat_session_id,
         refined_answer_improvement=refined_answer_improvement,
+        model_used=llm.config.model_name,
     )
 
-
+# Post-LLM answer processing for storing messages in the db
 def _post_llm_answer_processing(
     answer: Answer,
     info_by_subq: dict[SubQuestionKey, AnswerPostInfo],
@@ -1370,6 +1384,7 @@ def _post_llm_answer_processing(
     db_session: Session,
     chat_session_id: UUID,
     refined_answer_improvement: bool | None,
+    model_used: str,
 ) -> Generator[ChatPacket, None, None]:
     """
     Stores messages in the db and yields some final packets to the frontend
@@ -1442,6 +1457,23 @@ def _post_llm_answer_processing(
             ),
         )
 
+        # Fetch chat session so we can access user_id
+        chat_session = get_chat_session_by_id(
+            chat_session_id=chat_session_id,
+            user_id=None,
+            db_session=db_session,
+        )
+        
+        # Log token usage for the assistant message
+        log_token_usage(
+            db_session=db_session,
+            user_id=chat_session.user_id,
+            chat_session_id=chat_session_id,
+            message_id=gen_ai_response_message.id,
+            message_type=MessageType.ASSISTANT,
+            model_used=model_used,
+            token_count=len(llm_tokenizer_encode_func(answer.llm_answer)),
+        )
         # add answers for levels >= 1, where each level has the previous as its parent. Use
         # the answer_by_level method in answer.py to get the answers for each level
         next_level = 1
@@ -1481,6 +1513,7 @@ def _post_llm_answer_processing(
             prev_message = next_answer_message
 
         logger.debug("Committing messages")
+        
         # Explicitly update the timestamp on the chat session
         update_chat_session_updated_at_timestamp(chat_session_id, db_session)
         db_session.commit()  # actually save user / assistant message

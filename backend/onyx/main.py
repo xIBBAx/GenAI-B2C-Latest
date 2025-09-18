@@ -118,6 +118,10 @@ from shared_configs.configs import MULTI_TENANT
 from shared_configs.configs import POSTGRES_DEFAULT_SCHEMA
 from shared_configs.configs import SENTRY_DSN
 from shared_configs.contextvars import CURRENT_TENANT_ID_CONTEXTVAR
+from onyx.caseprediction.main import router as caseprediction_router # caseprediction
+from onyx.docgen_hitl_backend.main import router as docgen_hitl_router # docgen_hitl_backend
+from onyx.deepsearch_backend.main import router as deepsearch_router  # deepsearch_backend
+from onyx.legacy_search.main import router as legacysearch_router  # legacysearch
 
 logger = setup_logger()
 
@@ -278,7 +282,7 @@ def log_http_error(request: Request, exc: Exception) -> JSONResponse:
 
 def get_application(lifespan_override: Lifespan | None = None) -> FastAPI:
     application = FastAPI(
-        title="Onyx Backend",
+        title="Techpeek AI Backend",
         version=__version__,
         lifespan=lifespan_override or lifespan,
     )
@@ -299,7 +303,12 @@ def get_application(lifespan_override: Lifespan | None = None) -> FastAPI:
     application.add_exception_handler(
         status.HTTP_500_INTERNAL_SERVER_ERROR, log_http_error
     )
-
+    
+    # Register HITL, DocGen & Caseprediction APIs under global /api prefix
+    include_router_with_global_prefix_prepended(application, caseprediction_router)
+    include_router_with_global_prefix_prepended(application, docgen_hitl_router)
+    include_router_with_global_prefix_prepended(application, deepsearch_router)
+    include_router_with_global_prefix_prepended(application, legacysearch_router)
     include_router_with_global_prefix_prepended(application, password_router)
     include_router_with_global_prefix_prepended(application, chat_router)
     include_router_with_global_prefix_prepended(application, query_router)

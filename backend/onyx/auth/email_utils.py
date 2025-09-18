@@ -72,9 +72,9 @@ HTML_EMAIL_TEMPLATE = """\
       border: 1px solid #eaeaea;
     }}
     .header {{
-      background-color: #000000;
-      padding: 20px;
-      text-align: center;
+    background: linear-gradient(135deg, #0c1b2c, #5d8b9e, #73c4d2, #c4e7ec);
+    padding: 20px;
+    text-align: center;
     }}
     .header img {{
       max-width: 140px;
@@ -100,7 +100,7 @@ HTML_EMAIL_TEMPLATE = """\
     .cta-button {{
       display: inline-block;
       padding: 14px 24px;
-      background-color: #0055FF;
+      background-color: #73c4d2;
       color: #ffffff !important;
       text-decoration: none;
       border-radius: 4px;
@@ -135,8 +135,8 @@ HTML_EMAIL_TEMPLATE = """\
     </tr>
     <tr>
       <td class="body-content">
-        <h1 class="title">{heading}</h1>
-        <div class="message">
+        <h1 class="title" style="text-align: center;">{heading}</h1>
+        <div class="message" style="text-align: center;">
           {message}
         </div>
         {cta_block}
@@ -163,10 +163,14 @@ def build_html_email(
 ) -> str:
     slack_fragment = ""
     if application_name == ONYX_DEFAULT_APPLICATION_NAME:
-        slack_fragment = f'<br>Have questions? Join our Slack community <a href="{ONYX_SLACK_URL}">here</a>.'
+        slack_fragment = f'<br>Have questions? Contact us at <a href="mailto:legalaxess@gmail.com">legalaxess@gmail.com</a>.'
 
     if cta_text and cta_link:
-        cta_block = f'<a class="cta-button" href="{cta_link}">{cta_text}</a>'
+        cta_block = f'''
+        <div style="text-align: center;">
+            <a class="cta-button" href="{cta_link}">{cta_text}</a>
+        </div>
+        '''
     else:
         cta_block = ""
     return HTML_EMAIL_TEMPLATE.format(
@@ -486,19 +490,27 @@ def send_user_verification_email(
 
     onyx_file = OnyxRuntime.get_emailable_logo()
 
-    subject = f"{application_name} Email Verification"
+    subject = f"Verify your email address for {application_name}"
     link = f"{WEB_DOMAIN}/auth/verify-email?token={token}"
     if new_organization:
         link = add_url_params(link, {"first_user": "true"})
     message = (
-        f"<p>Click the following link to verify your email address:</p><p>{link}</p>"
+        f"<p>Hi there, thanks for signing up for <strong>{application_name}</strong>.</p>"
+        f"<p>Kindly confirm your email address by following the verification link provided below.</p>"
     )
     html_content = build_html_email(
         application_name,
         "Verify Your Email",
         message,
+        cta_text="Verify Email",
+        cta_link=link,
     )
-    text_content = f"Click the following link to verify your email address: {link}"
+
+    text_content = (
+        f"Hi there,\n\n"
+        f"Thanks for signing up for {application_name}.\n"
+        f"Please confirm your email by visiting:\n\n{link}\n"
+    )
     send_email(
         user_email,
         subject,

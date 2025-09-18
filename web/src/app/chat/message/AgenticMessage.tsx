@@ -1,5 +1,6 @@
 "use client";
 
+import rehypeRaw from "rehype-raw";
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
 import { FeedbackType } from "../types";
 import React, {
@@ -141,6 +142,10 @@ export const AgenticMessage = ({
 
   const processContent = (incoming: string | JSX.Element) => {
     if (typeof incoming !== "string") return incoming;
+
+    // If it's Deep Search HTML (contains <a href=...>), return as-is
+    const containsInlineLinks = /<a\s+href=['"].*?['"]\s*target=['"]_blank['"]>/i.test(incoming);
+    if (containsInlineLinks) return incoming;
 
     let processed = incoming;
 
@@ -374,7 +379,7 @@ export const AgenticMessage = ({
           },
         }}
         remarkPlugins={[remarkGfm, remarkMath]}
-        rehypePlugins={[[rehypePrism, { ignoreMissing: true }], rehypeKatex]}
+        rehypePlugins={[rehypeRaw, [rehypePrism, { ignoreMissing: true }], rehypeKatex]}
         urlTransform={transformLinkUri}
       >
         {finalAlternativeContent}
@@ -388,7 +393,7 @@ export const AgenticMessage = ({
         className="prose dark:prose-invert max-w-full text-base"
         components={markdownComponents}
         remarkPlugins={[remarkGfm, remarkMath]}
-        rehypePlugins={[[rehypePrism, { ignoreMissing: true }], rehypeKatex]}
+        rehypePlugins={[rehypeRaw, [rehypePrism, { ignoreMissing: true }], rehypeKatex]}
         urlTransform={transformLinkUri}
       >
         {streamedContent +
@@ -509,7 +514,7 @@ export const AgenticMessage = ({
                   {(allowStreaming &&
                     finalContent &&
                     finalContent.length > 8) ||
-                  (files && files.length > 0) ? (
+                    (files && files.length > 0) ? (
                     <>
                       <div className="w-full  py-4 flex flex-col gap-4">
                         <div className="flex items-center gap-x-2 px-4">
@@ -533,7 +538,7 @@ export const AgenticMessage = ({
                             secondLevelGenerating={
                               (secondLevelGenerating &&
                                 finalContent.length ==
-                                  streamedContent.length) ||
+                                streamedContent.length) ||
                               false
                             }
                             subQuestions={subQuestions}
@@ -595,14 +600,14 @@ export const AgenticMessage = ({
                                   handlePrevious={() => {
                                     onMessageSelection(
                                       otherMessagesCanSwitchTo[
-                                        currentMessageInd - 1
+                                      currentMessageInd - 1
                                       ]
                                     );
                                   }}
                                   handleNext={() => {
                                     onMessageSelection(
                                       otherMessagesCanSwitchTo[
-                                        currentMessageInd + 1
+                                      currentMessageInd + 1
                                       ]
                                     );
                                   }}
@@ -659,15 +664,12 @@ export const AgenticMessage = ({
                         className={`
                           absolute -bottom-5
                           z-10
-                          invisible ${
-                            (isHovering || settings?.isMobile) && "!visible"
+                          invisible ${(isHovering || settings?.isMobile) && "!visible"
                           }
-                          opacity-0 ${
-                            (isHovering || settings?.isMobile) && "!opacity-100"
+                          opacity-0 ${(isHovering || settings?.isMobile) && "!opacity-100"
                           }
-                          translate-y-2 ${
-                            (isHovering || settings?.isMobile) &&
-                            "!translate-y-0"
+                          translate-y-2 ${(isHovering || settings?.isMobile) &&
+                          "!translate-y-0"
                           }
                           transition-transform duration-300 ease-in-out
                           flex md:flex-row gap-x-0.5 bg-background-125/40 -mx-1.5 p-1.5 rounded-lg
@@ -683,14 +685,14 @@ export const AgenticMessage = ({
                                   handlePrevious={() => {
                                     onMessageSelection(
                                       otherMessagesCanSwitchTo[
-                                        currentMessageInd - 1
+                                      currentMessageInd - 1
                                       ]
                                     );
                                   }}
                                   handleNext={() => {
                                     onMessageSelection(
                                       otherMessagesCanSwitchTo[
-                                        currentMessageInd + 1
+                                      currentMessageInd + 1
                                       ]
                                     );
                                   }}

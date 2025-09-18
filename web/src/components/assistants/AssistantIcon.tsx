@@ -6,6 +6,10 @@ import {
   ArtAsistantIcon,
   GeneralAssistantIcon,
   SearchAssistantIcon,
+  CasePredictionIcon,
+  DeepSearchIcon,
+  LegacySearchIconAssistant,
+  ParaphraseIcon,
 } from "../icons/icons";
 import {
   Tooltip,
@@ -102,21 +106,21 @@ export function AssistantIcon({
     typeof size === "number"
       ? size
       : (() => {
-          switch (size) {
-            case "xs":
-              return 16;
-            case "small":
-              return 24;
-            case "medium":
-              return 32;
-            case "large":
-              return 40;
-            case "header":
-              return 56;
-            default:
-              return 24;
-          }
-        })();
+        switch (size) {
+          case "xs":
+            return 16;
+          case "small":
+            return 24;
+          case "medium":
+            return 32;
+          case "large":
+            return 40;
+          case "header":
+            return 56;
+          default:
+            return 24;
+        }
+      })();
 
   const wrapperClass = border
     ? "ring text-[#000] dark:text-[#fff] ring-[1px] ring-border-strong"
@@ -128,12 +132,20 @@ export function AssistantIcon({
       <Tooltip>
         <TooltipTrigger asChild>
           <div className={className + " text-[#000] dark:text-[#fff]"}>
-            {assistant.id == -3 ? (
+            {assistant.id == -4 ? (
+              <CasePredictionIcon size={dimension} />
+            ) : assistant.id == -3 ? (
               <ArtAsistantIcon size={dimension} />
             ) : assistant.id == 0 ? (
               <SearchAssistantIcon size={dimension} />
             ) : assistant.id == -1 ? (
               <GeneralAssistantIcon size={dimension} />
+            ) : assistant.id == -5 ? (
+              <DeepSearchIcon size={dimension} />
+            ) : assistant.id == -6 ? (
+              <LegacySearchIconAssistant size={dimension} />
+            ) : assistant.id == -2 ? (
+              <ParaphraseIcon size={dimension} />
             ) : assistant.uploaded_image_id ? (
               <img
                 alt={assistant.name}

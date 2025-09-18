@@ -1,9 +1,33 @@
 services:
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: companypeek
+      MONGO_INITDB_ROOT_PASSWORD: 87Mmb19JEu0pKJm
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodbdata:/data/db
+    restart: always
+  streamlit_app:
+    build:
+      context: ../../backend/onyx/legacy_search
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ../../backend/onyx/legacy_search:/app
+    ports:
+      - "8501:8501"      
+    depends_on:
+      - mongodb
+
   api_server:
     image: onyxdotapp/onyx-backend:${IMAGE_TAG:-latest}
     build:
       context: ../../backend
       dockerfile: Dockerfile
+    env_file:
+      - ../../.env
     command: >
       /bin/sh -c "alembic upgrade head &&
       echo \"Starting Onyx Api Server\" &&
@@ -18,23 +42,33 @@ services:
       - "8080:8080"
     environment:
       # Auth Settings
-      - AUTH_TYPE=${AUTH_TYPE:-disabled}
+      - AUTH_TYPE=${AUTH_TYPE:-basic}
       - SESSION_EXPIRE_TIME_SECONDS=${SESSION_EXPIRE_TIME_SECONDS:-}
       - ENCRYPTION_KEY_SECRET=${ENCRYPTION_KEY_SECRET:-}
       - VALID_EMAIL_DOMAINS=${VALID_EMAIL_DOMAINS:-}
+      - GOOGLE_API_KEY=AIzaSyBBzSeYePsY9zDiKuZs_yOaiQyJHC8h-Wc
+      - GOOGLE_SEARCH_ENGINE_ID=d400e67e18f88432b
       - GOOGLE_OAUTH_CLIENT_ID=${GOOGLE_OAUTH_CLIENT_ID:-}
       - GOOGLE_OAUTH_CLIENT_SECRET=${GOOGLE_OAUTH_CLIENT_SECRET:-}
-      - REQUIRE_EMAIL_VERIFICATION=${REQUIRE_EMAIL_VERIFICATION:-}
-      - SMTP_SERVER=${SMTP_SERVER:-} # For sending verification emails, if unspecified then defaults to 'smtp.gmail.com'
-      - SMTP_PORT=${SMTP_PORT:-587} # For sending verification emails, if unspecified then defaults to '587'
-      - SMTP_USER=${SMTP_USER:-}
-      - SMTP_PASS=${SMTP_PASS:-}
-      - ENABLE_EMAIL_INVITES=${ENABLE_EMAIL_INVITES:-} # If enabled, will send users (using SMTP settings) an email to join the workspace
-      - EMAIL_FROM=${EMAIL_FROM:-}
-      - OAUTH_CLIENT_ID=${OAUTH_CLIENT_ID:-}
-      - OAUTH_CLIENT_SECRET=${OAUTH_CLIENT_SECRET:-}
-      - OPENID_CONFIG_URL=${OPENID_CONFIG_URL:-}
-      - TRACK_EXTERNAL_IDP_EXPIRY=${TRACK_EXTERNAL_IDP_EXPIRY:-}
+      - CONNECTION_URL=mongodb://companypeek:87Mmb19JEu0pKJm@mongodb:27017/?authSource=admin
+      - REQUIRE_EMAIL_VERIFICATION=true
+      - ENABLE_EMAIL_INVITES=true
+      - SMTP_SERVER=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_USER=legalaxess@gmail.com
+      - SMTP_PASS=rpvbnozczgrifvoi
+      - EMAIL_FROM=legalaxess@gmail.com
+      # - REQUIRE_EMAIL_VERIFICATION=${REQUIRE_EMAIL_VERIFICATION:-}
+      # - SMTP_SERVER=${SMTP_SERVER:-} # For sending verification emails, if unspecified then defaults to 'smtp.gmail.com'
+      # - SMTP_PORT=${SMTP_PORT:-587} # For sending verification emails, if unspecified then defaults to '587'
+      # - SMTP_USER=${SMTP_USER:-}
+      # - SMTP_PASS=${SMTP_PASS:-}
+      # - ENABLE_EMAIL_INVITES=${ENABLE_EMAIL_INVITES:-} # If enabled, will send users (using SMTP settings) an email to join the workspace
+      # - EMAIL_FROM=${EMAIL_FROM:-}
+      # - OAUTH_CLIENT_ID=${OAUTH_CLIENT_ID:-}
+      # - OAUTH_CLIENT_SECRET=${OAUTH_CLIENT_SECRET:-}
+      # - OPENID_CONFIG_URL=${OPENID_CONFIG_URL:-}
+      # - TRACK_EXTERNAL_IDP_EXPIRY=${TRACK_EXTERNAL_IDP_EXPIRY:-}
       - CORS_ALLOWED_ORIGIN=${CORS_ALLOWED_ORIGIN:-}
       - INTEGRATION_TESTS_MODE=${INTEGRATION_TESTS_MODE:-}
       # Gen AI Settings
@@ -70,7 +104,7 @@ services:
       - POSTGRES_POOL_RECYCLE=${POSTGRES_POOL_RECYCLE:-}
       - VESPA_HOST=index
       - REDIS_HOST=cache
-      - WEB_DOMAIN=${WEB_DOMAIN:-} # For frontend redirect auth purpose
+      - REDIS_PASSWORD=Techpeek@2022redis
       # Don't change the NLP model configs unless you know what you're doing
       - EMBEDDING_BATCH_SIZE=${EMBEDDING_BATCH_SIZE:-}
       - DOCUMENT_ENCODER_MODEL=${DOCUMENT_ENCODER_MODEL:-}
@@ -83,7 +117,7 @@ services:
       # Leave this on pretty please? Nothing sensitive is collected!
       # https://docs.onyx.app/more/telemetry
       - DISABLE_TELEMETRY=${DISABLE_TELEMETRY:-}
-      - LOG_LEVEL=${LOG_LEVEL:-info} # Set to debug to get more fine-grained logs
+      - LOG_LEVEL=${LOG_LEVEL:-debug} # Set to debug to get more fine-grained logs
       - LOG_ALL_MODEL_INTERACTIONS=${LOG_ALL_MODEL_INTERACTIONS:-} # LiteLLM Verbose Logging
       # Log all of Onyx prompts and interactions with the LLM
       - LOG_DANSWER_MODEL_INTERACTIONS=${LOG_DANSWER_MODEL_INTERACTIONS:-}
@@ -97,12 +131,12 @@ services:
       - CELERY_BROKER_POOL_LIMIT=${CELERY_BROKER_POOL_LIMIT:-}
       - LITELLM_CUSTOM_ERROR_MESSAGE_MAPPINGS=${LITELLM_CUSTOM_ERROR_MESSAGE_MAPPINGS:-}
       # Egnyte OAuth Configs
-      - EGNYTE_CLIENT_ID=${EGNYTE_CLIENT_ID:-}
-      - EGNYTE_CLIENT_SECRET=${EGNYTE_CLIENT_SECRET:-}
-      - EGNYTE_LOCALHOST_OVERRIDE=${EGNYTE_LOCALHOST_OVERRIDE:-}
+      # - EGNYTE_CLIENT_ID=${EGNYTE_CLIENT_ID:-}
+      # - EGNYTE_CLIENT_SECRET=${EGNYTE_CLIENT_SECRET:-}
+      # - EGNYTE_LOCALHOST_OVERRIDE=${EGNYTE_LOCALHOST_OVERRIDE:-}
       # Lienar OAuth Configs
-      - LINEAR_CLIENT_ID=${LINEAR_CLIENT_ID:-}
-      - LINEAR_CLIENT_SECRET=${LINEAR_CLIENT_SECRET:-}
+      # - LINEAR_CLIENT_ID=${LINEAR_CLIENT_ID:-}
+      # - LINEAR_CLIENT_SECRET=${LINEAR_CLIENT_SECRET:-}
 
       # Demo purposes
       - MOCK_CONNECTOR_FILE_PATH=${MOCK_CONNECTOR_FILE_PATH:-}
@@ -119,7 +153,7 @@ services:
       - AWS_REGION_NAME=${AWS_REGION_NAME:-}
 
       # Enterprise Edition only
-      - ENABLE_PAID_ENTERPRISE_EDITION_FEATURES=${ENABLE_PAID_ENTERPRISE_EDITION_FEATURES:-false}
+      - ENABLE_PAID_ENTERPRISE_EDITION_FEATURES=${ENABLE_PAID_ENTERPRISE_EDITION_FEATURES:-true}
       - API_KEY_HASH_ROUNDS=${API_KEY_HASH_ROUNDS:-}
       # Seeding configuration
       - USE_IAM_AUTH=${USE_IAM_AUTH:-}
@@ -137,6 +171,10 @@ services:
     # optional, only for debugging purposes
     volumes:
       - api_server_logs:/var/log
+      - ../../backend/onyx/caseprediction:/app/caseprediction_model
+      - ../../backend/onyx/docgen_hitl_backend:/app/onyx/docgen_hitl_backend
+      - ../../backend/onyx/results:/app/results
+      - chromadb_data:/app/.chromadb
 
   background:
     image: onyxdotapp/onyx-backend:${IMAGE_TAG:-latest}
@@ -169,6 +207,8 @@ services:
       - GENERATIVE_MODEL_ACCESS_CHECK_FREQ=${GENERATIVE_MODEL_ACCESS_CHECK_FREQ:-}
       - DISABLE_LITELLM_STREAMING=${DISABLE_LITELLM_STREAMING:-}
       - LITELLM_EXTRA_HEADERS=${LITELLM_EXTRA_HEADERS:-}
+      - GOOGLE_API_KEY=AIzaSyBBzSeYePsY9zDiKuZs_yOaiQyJHC8h-Wc
+      - GOOGLE_SEARCH_ENGINE_ID=d400e67e18f88432b
       - GEN_AI_API_KEY=${GEN_AI_API_KEY:-}
       - BING_API_KEY=${BING_API_KEY:-}
       # Query Options
@@ -188,7 +228,7 @@ services:
       - POSTGRES_USE_NULL_POOL=${POSTGRES_USE_NULL_POOL:-}
       - VESPA_HOST=index
       - REDIS_HOST=cache
-      - WEB_DOMAIN=${WEB_DOMAIN:-} # For frontend redirect auth purpose for OAuth2 connectors
+      - REDIS_PASSWORD=Techpeek@2022redis
       # Don't change the NLP model configs unless you know what you're doing
       - DOCUMENT_ENCODER_MODEL=${DOCUMENT_ENCODER_MODEL:-}
       - DOC_EMBEDDING_DIM=${DOC_EMBEDDING_DIM:-}
@@ -215,12 +255,12 @@ services:
       - MAX_DOCUMENT_CHARS=${MAX_DOCUMENT_CHARS:-}
       - MAX_FILE_SIZE_BYTES=${MAX_FILE_SIZE_BYTES:-}
       # Egnyte OAuth Configs
-      - EGNYTE_CLIENT_ID=${EGNYTE_CLIENT_ID:-}
-      - EGNYTE_CLIENT_SECRET=${EGNYTE_CLIENT_SECRET:-}
-      - EGNYTE_LOCALHOST_OVERRIDE=${EGNYTE_LOCALHOST_OVERRIDE:-}
+      # - EGNYTE_CLIENT_ID=${EGNYTE_CLIENT_ID:-}
+      # - EGNYTE_CLIENT_SECRET=${EGNYTE_CLIENT_SECRET:-}
+      # - EGNYTE_LOCALHOST_OVERRIDE=${EGNYTE_LOCALHOST_OVERRIDE:-}
       # Lienar OAuth Configs
-      - LINEAR_CLIENT_ID=${LINEAR_CLIENT_ID:-}
-      - LINEAR_CLIENT_SECRET=${LINEAR_CLIENT_SECRET:-}
+      # - LINEAR_CLIENT_ID=${LINEAR_CLIENT_ID:-}
+      # - LINEAR_CLIENT_SECRET=${LINEAR_CLIENT_SECRET:-}
       # Celery Configs (defaults are set in the supervisord.conf file.
       # prefer doing that to have one source of defaults)
       - CELERY_WORKER_INDEXING_CONCURRENCY=${CELERY_WORKER_INDEXING_CONCURRENCY:-}
@@ -240,7 +280,7 @@ services:
       # Leave this on pretty please? Nothing sensitive is collected!
       # https://docs.onyx.app/more/telemetry
       - DISABLE_TELEMETRY=${DISABLE_TELEMETRY:-}
-      - LOG_LEVEL=${LOG_LEVEL:-info} # Set to debug to get more fine-grained logs
+      - LOG_LEVEL=${LOG_LEVEL:-debug} # Set to debug to get more fine-grained logs
       - LOG_ALL_MODEL_INTERACTIONS=${LOG_ALL_MODEL_INTERACTIONS:-} # LiteLLM Verbose Logging
       # Log all of Onyx prompts and interactions with the LLM
       - LOG_DANSWER_MODEL_INTERACTIONS=${LOG_DANSWER_MODEL_INTERACTIONS:-}
@@ -251,7 +291,7 @@ services:
       - SENTRY_DSN=${SENTRY_DSN:-}
 
       # Enterprise Edition stuff
-      - ENABLE_PAID_ENTERPRISE_EDITION_FEATURES=${ENABLE_PAID_ENTERPRISE_EDITION_FEATURES:-false}
+      - ENABLE_PAID_ENTERPRISE_EDITION_FEATURES=${ENABLE_PAID_ENTERPRISE_EDITION_FEATURES:-true}
       - USE_IAM_AUTH=${USE_IAM_AUTH:-}
       - AWS_REGION_NAME=${AWS_REGION_NAME:-}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID-}
@@ -286,6 +326,7 @@ services:
     build:
       context: ../../web
       dockerfile: Dockerfile
+      # dockerfile: Dockerfile.dev
       args:
         - NEXT_PUBLIC_DISABLE_STREAMING=${NEXT_PUBLIC_DISABLE_STREAMING:-false}
         - NEXT_PUBLIC_NEW_CHAT_DIRECTS_TO_SAME_PERSONA=${NEXT_PUBLIC_NEW_CHAT_DIRECTS_TO_SAME_PERSONA:-false}
@@ -308,8 +349,17 @@ services:
       - DISABLE_LLM_DOC_RELEVANCE=${DISABLE_LLM_DOC_RELEVANCE:-}
 
       # Enterprise Edition only
-      - ENABLE_PAID_ENTERPRISE_EDITION_FEATURES=${ENABLE_PAID_ENTERPRISE_EDITION_FEATURES:-false}
+      - ENABLE_PAID_ENTERPRISE_EDITION_FEATURES=${ENABLE_PAID_ENTERPRISE_EDITION_FEATURES:-true}
       - NEXT_PUBLIC_CUSTOM_REFRESH_URL=${NEXT_PUBLIC_CUSTOM_REFRESH_URL:-}
+    # develop:
+    #   watch:
+    #     - action: sync
+    #       path: ../../web
+    #       target: /app
+    #       ignore:
+    #         - node_modules/
+    #     - action: rebuild
+    #       path: ../../web/package.json
 
   inference_model_server:
     image: onyxdotapp/onyx-model-server:${IMAGE_TAG:-latest}
@@ -327,7 +377,7 @@ services:
     environment:
       - MIN_THREADS_ML_MODELS=${MIN_THREADS_ML_MODELS:-}
       # Set to debug to get more fine-grained logs
-      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_LEVEL=${LOG_LEVEL:-debug}
 
       # Analytics Configs
       - SENTRY_DSN=${SENTRY_DSN:-}
@@ -360,7 +410,7 @@ services:
       - MIN_THREADS_ML_MODELS=${MIN_THREADS_ML_MODELS:-}
       - INDEXING_ONLY=True
       # Set to debug to get more fine-grained logs
-      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_LEVEL=${LOG_LEVEL:-debug}
       - CLIENT_EMBEDDING_TIMEOUT=${CLIENT_EMBEDDING_TIMEOUT:-}
 
       # Analytics Configs
@@ -403,6 +453,26 @@ services:
         max-size: "50m"
         max-file: "6"
 
+  # nginx:
+  #   image: nginx:1.23.4-alpine
+  #   restart: always
+  #   depends_on:
+  #     - api_server
+  #     - web_server
+  #   environment:
+  #     - DOMAIN=enterprise.techpeek.in # Sets the domain used in the NGINX config templates
+  #   env_file:
+  #     - .env.nginx # Provides additional env variables for NGINX (e.g., SSL settings)
+  #   ports:
+  #     - "80:80" # Expose HTTP
+  #     - "443:443" # Expose HTTPS
+  #   volumes:
+  #     - ../data/nginx:/etc/nginx/conf.d # Mount custom NGINX configs
+  #     - /etc/letsencrypt:/etc/letsencrypt:ro # Mount SSL certificates (read-only)
+  #     # Ensures script uses Unix line endings, then runs startup script to generate final NGINX config
+  #   command: >
+  #     /bin/sh -c "dos2unix /etc/nginx/conf.d/run-nginx.sh  && /etc/nginx/conf.d/run-nginx.sh app.conf.template.dev"
+
   nginx:
     image: nginx:1.23.4-alpine
     restart: always
@@ -439,9 +509,10 @@ services:
       - "6379:6379"
     # docker silently mounts /data even without an explicit volume mount, which enables
     # persistence. explicitly setting save and appendonly forces ephemeral behavior.
-    command: redis-server --save "" --appendonly no
+    command: redis-server --requirepass "Techpeek@2022redis" --save "" --appendonly no --replica-read-only no
 
 volumes:
+  mongodbdata:
   db_volume:
   vespa_volume: # Created by the container itself
 
@@ -452,3 +523,4 @@ volumes:
   background_logs:
   inference_model_server_logs:
   indexing_model_server_logs:
+  chromadb_data:

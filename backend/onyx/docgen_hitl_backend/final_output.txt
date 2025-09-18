@@ -1,0 +1,265 @@
+
+
+Parties
+This Service Agreement (the "Agreement") is made and entered into as of [Date of Agreement], by and between:
+
+[Client Company Name], a [Client Company Legal Structure, e.g., corporation, LLC] organized and existing under the laws of [Client Company State/Country], with its principal place of business located at [Client Company Address] (hereinafter referred to as the "Client"),
+
+and
+
+[Service Provider Company Name], a [Service Provider Company Legal Structure, e.g., corporation, LLC] organized and existing under the laws of [Service Provider Company State/Country], with its principal place of business located at [Service Provider Company Address] (hereinafter referred to as the "Service Provider").
+
+The Client and the Service Provider may be referred to individually as a "Party" and collectively as the "Parties."
+
+
+
+
+
+Services
+This Service Agreement (the "Agreement") is entered into by and between [Client Company Name], a [Client Legal Structure] organized and existing under the laws of [Client Jurisdiction], with its principal place of business at [Client Principal Address] (hereinafter referred to as "Client"), and [Service Provider Company Name], a [Service Provider Legal Structure] organized and existing under the laws of [Service Provider Jurisdiction], with its principal place of business at [Service Provider Principal Address] (hereinafter referred to as "Service Provider").
+
+**1. Scope of Services:**
+The Service Provider agrees to provide the Client with comprehensive industrial machine deployment and maintenance services, including but not limited to the following:
+
+*   **1.1 Machine Deployment:**
+    *   Site assessment and preparation for new machine installations.
+    *   Logistics and transportation of industrial machinery.
+    *   Unpacking, assembly, and precise installation of specified industrial machines as detailed in Exhibit A (Machine Specifications and Deployment Plan).
+    *   Initial testing, calibration, and configuration of deployed machinery to ensure optimal performance and adherence to manufacturer specifications.
+    *   On-site training for Client personnel on the operation and basic maintenance of newly deployed machines.
+
+*   **1.2 Annual Maintenance Services:**
+    *   **Preventive Maintenance:** Scheduled inspections, cleaning, lubrication, and replacement of wear-and-tear parts as per manufacturer recommendations and Service Provider's best practices. This includes a minimum of [Number] scheduled preventive maintenance visits per year for each deployed machine.
+    *   **Corrective Maintenance (Breakdown Support):** Emergency repair services for machine malfunctions or breakdowns. The Service Provider will endeavor to respond to reported issues within [Response Time] during business hours and [Emergency Response Time] for critical failures outside business hours. This service includes diagnosis, repair, and replacement of faulty parts.
+    *   **Remote Diagnostics and Support:** Provision of remote monitoring and diagnostic capabilities where feasible, to proactively identify potential issues and offer immediate remote assistance.
+    *   **Parts and Labor:** All necessary parts and labor required for both preventive and corrective maintenance will be provided by the Service Provider, unless otherwise specified in this Agreement. Replacement parts will be new or reconditioned equivalent to new.
+    *   **Performance Optimization:** Periodic review and adjustment of machine settings to ensure continued optimal performance and efficiency.
+
+*   **1.3 Reporting and Documentation:**
+    *   Detailed service reports for each deployment and maintenance visit, documenting work performed, parts used, and any recommendations.
+    *   Maintenance logs for each machine, tracking all service activities.
+
+**2. Exclusions:**
+The Services provided under this Agreement do not include:
+*   Damage caused by misuse, abuse, negligence, or unauthorized modifications by the Client or third parties.
+*   Consumable items not directly related to maintenance (e.g., raw materials, lubricants not part of scheduled maintenance).
+*   Upgrades or enhancements to the machines beyond their original specifications, unless specifically agreed upon in a separate amendment.
+*   Services required due to natural disasters, acts of war, or other force majeure events beyond the reasonable control of the Service Provider.
+
+
+This section outlines the core services provided by [Service Provider Company Name] to [Client Company Name] under this agreement. It details industrial machine deployment, including site preparation, installation, and initial training. It also specifies comprehensive annual maintenance, encompassing scheduled preventive checks, emergency breakdown repairs, remote support, and necessary parts and labor. Exclusions such as client misuse or force majeure events are also defined.
+
+
+
+Term
+This Service Agreement (the "Agreement") shall commence on the Effective Date, which is the date of the last signature affixed hereto, and shall continue for an initial term of three (3) years (the "Initial Term"). Following the Initial Term, this Agreement shall automatically renew for successive one (1) year periods (each a "Renewal Term") unless either party provides written notice of non-renewal to the other party at least ninety (90) days prior to the expiration of the then-current term. The Initial Term and any Renewal Terms collectively constitute the "Term" of this Agreement.
+
+
+
+
+Fees and Payment
+
+1.  **Deployment Fees:** The Client shall pay the Service Provider a one-time deployment fee of [Deployment Fee Amount] ([Deployment Fee Amount in Words]) for the successful deployment of the industrial machine(s) as detailed in Exhibit A. This fee is due upon successful completion of the deployment and acceptance by the Client, as evidenced by a signed acceptance certificate.
+
+2.  **Annual Maintenance Fees:** In addition to the deployment fee, the Client shall pay an annual maintenance fee of [Annual Maintenance Fee Amount] ([Annual Maintenance Fee Amount in Words]) per machine, commencing on the first anniversary of the machine's deployment acceptance date. This fee covers the services outlined in Section 3 (Scope of Services) for a period of twelve (12) months.
+
+3.  **Payment Schedule:**
+    *   Deployment Fees are due within thirty (30) days of the Client's acceptance of the deployed machine(s).
+    *   Annual Maintenance Fees are payable in advance, on or before the anniversary date of the machine's deployment acceptance each year. The first annual maintenance fee payment will be due on the first anniversary of the machine's deployment acceptance.
+
+4.  **Invoicing:** The Service Provider shall issue invoices for all fees due. Invoices for deployment fees will be issued upon completion of deployment. Invoices for annual maintenance fees will be issued at least thirty (30) days prior to the due date.
+
+5.  **Payment Method:** All payments shall be made in [Currency] via [Payment Method, e.g., bank transfer, check] to the account specified by the Service Provider on the invoice.
+
+6.  **Late Payments:** Any payments not received by the due date shall be subject to a late payment charge of [Late Payment Interest Rate]% per month on the outstanding balance, or the maximum rate permitted by law, whichever is less.
+
+7.  **Taxes:** All fees stated herein are exclusive of any applicable taxes, duties, or governmental charges. The Client shall be responsible for paying all such taxes, except for taxes based on the Service Provider's net income.
+
+8.  **Price Adjustments:** The Service Provider reserves the right to adjust the Annual Maintenance Fees by no more than [Percentage]% annually, effective on each anniversary of the Service Agreement, provided that the Service Provider provides the Client with at least ninety (90) days' written notice of such adjustment.
+
+
+This section outlines the financial terms for industrial machine deployment and maintenance. It details a one-time deployment fee and recurring annual maintenance fees per machine. Payment schedules, invoicing procedures, and acceptable payment methods are specified. The section also addresses late payment penalties, tax responsibilities, and a provision for annual price adjustments to maintenance fees, with advance notice required.
+
+
+
+Maintenance
+This Section details the comprehensive annual maintenance services to be provided by [Service Provider Company Name] (hereinafter referred to as "Provider") to [Client Company Name] (hereinafter referred to as "Client") for the industrial machines deployed under this Service Contract.
+
+**1. Annual Maintenance Services:**
+Provider shall perform annual maintenance services for the deployed industrial machines, which shall include, but not be limited to, the following:
+
+*   **Scheduled Preventive Maintenance:** Provider will conduct scheduled preventive maintenance inspections and servicing at intervals mutually agreed upon by both parties, typically on an annual basis. This includes lubrication, calibration, cleaning, inspection of wear parts, and any other tasks recommended by the machine manufacturer to ensure optimal performance and longevity.
+*   **Emergency Breakdown Repairs:** In the event of a machine breakdown, Provider shall provide emergency repair services. The response time for emergency calls will be [Specify Response Time, e.g., within 24 business hours] from the time of notification by the Client. Provider will dispatch qualified technicians to diagnose and repair the faulty machine.
+*   **Remote Support:** Provider will offer remote diagnostic and troubleshooting support for the deployed machines. This service will be available during Provider's standard business hours, [Specify Business Hours, e.g., Monday to Friday, 9:00 AM to 5:00 PM Local Time].
+*   **Parts and Labor:** All necessary parts and labor required for scheduled preventive maintenance and emergency breakdown repairs, as determined by Provider to be essential for restoring the machine to its operational condition, shall be included within the scope of this agreement. Replacement parts will be new or reconditioned parts equivalent to new in performance.
+
+**2. Exclusions from Maintenance:**
+The maintenance services provided under this Section do not cover:
+
+*   Damage or malfunction caused by misuse, abuse, neglect, or unauthorized modifications by the Client or any third party.
+*   Damage resulting from environmental conditions not suitable for the operation of the machines, including but not limited to, extreme temperatures, humidity, dust, or corrosive atmospheres, unless such conditions are explicitly addressed in the machine specifications and Client has taken appropriate measures.
+*   Damage caused by force majeure events, including but not limited to, natural disasters, acts of war, terrorism, or civil unrest.
+*   Consumable parts that are expected to be replaced periodically due to normal wear and tear, such as filters, seals, or specific wear components, unless explicitly stated otherwise in the machine's maintenance schedule provided by the manufacturer.
+*   Costs associated with relocation or decommissioning of the machines.
+
+**3. Client Responsibilities:**
+The Client shall:
+
+*   Ensure the machines are operated and maintained in accordance with the manufacturer's operating manual and any specific instructions provided by the Provider.
+*   Provide safe and reasonable access to the machines for Provider's technicians.
+*   Notify the Provider promptly of any suspected malfunctions or issues.
+*   Maintain a clean and safe working environment around the machines.
+
+**4. Service Schedule and Reporting:**
+Provider will provide the Client with a proposed annual maintenance schedule for preventive maintenance activities. Following each maintenance visit or repair, Provider will furnish the Client with a detailed service report outlining the work performed, any parts replaced, and recommendations for future care.
+
+
+This section outlines the annual maintenance services for industrial machines. It includes scheduled preventive checks, emergency breakdown repairs, and remote support, with necessary parts and labor covered. Exclusions like client misuse, force majeure, and certain consumable parts are defined. Client responsibilities for proper operation, access, and reporting issues are also detailed. A service schedule and reporting mechanism are established.
+
+
+
+Warranty
+The Service Provider warrants that all services performed under this Agreement will be executed in a professional and workmanlike manner, in accordance with industry standards and best practices. This warranty extends for a period of ninety (90) days from the date of completion of each specific service or repair. Should any defect in workmanship arise within this warranty period, the Service Provider shall, at its sole discretion and expense, either re-perform the defective service or repair the affected component. This warranty does not cover defects arising from misuse, neglect, unauthorized modifications, or failure to adhere to operating and maintenance instructions provided by the Service Provider or the original equipment manufacturer. The Service Provider makes no other warranties, express or implied, including but not limited to warranties of merchantability or fitness for a particular purpose, with respect to the services provided.
+
+
+
+
+
+Confidentiality
+This Confidentiality section governs the handling of proprietary and sensitive information exchanged between the Client, [Client Company Name] (hereinafter referred to as "Client"), a [Client Legal Structure] organized under the laws of [Client Jurisdiction] with its principal business address at [Client Principal Address], and the Service Provider, [Service Provider Company Name] (hereinafter referred to as "Service Provider"), a [Service Provider Legal Structure] organized under the laws of [Service Provider Jurisdiction] with its principal business address at [Service Provider Principal Address].
+
+For the purposes of this Agreement, "Confidential Information" shall mean any and all non-public information, whether oral, written, electronic, or in any other form, disclosed by one party (the "Disclosing Party") to the other party (the "Receiving Party") in connection with this Service Agreement, including but not limited to: technical specifications, operational data, machine performance metrics, maintenance procedures, proprietary software, business plans, financial information, customer lists, and any other information that is marked as confidential or would reasonably be understood to be confidential given the nature of the information and the circumstances of its disclosure.
+
+The Receiving Party agrees to:
+1.  Keep all Confidential Information of the Disclosing Party strictly confidential.
+2.  Use Confidential Information solely for the purpose of performing its obligations or exercising its rights under this Service Agreement.
+3.  Not disclose Confidential Information to any third party without the prior written consent of the Disclosing Party, except to its employees, agents, or subcontractors who have a need to know such information for the purpose of this Agreement and who are bound by confidentiality obligations at least as stringent as those contained herein.
+4.  Take all reasonable measures to protect the Confidential Information from unauthorized access, use, or disclosure, employing at least the same degree of care as it uses to protect its own confidential information of a similar nature.
+
+The obligations of confidentiality shall not apply to information that:
+a.  Is or becomes publicly available through no fault of the Receiving Party.
+b.  Was already in the lawful possession of the Receiving Party prior to disclosure by the Disclosing Party, without an obligation of confidentiality.
+c.  Is rightfully received by the Receiving Party from a third party without restriction on disclosure and without breach of any obligation of confidentiality.
+d.  Is independently developed by the Receiving Party without reference to or use of the Disclosing Party's Confidential Information.
+e.  Is required to be disclosed by law, regulation, or court order, provided that the Receiving Party shall, to the extent legally permissible, promptly notify the Disclosing Party of such requirement and cooperate with the Disclosing Party in seeking a protective order or other appropriate remedy.
+
+The obligations of confidentiality under this Section shall survive the termination or expiration of this Service Agreement for a period of [Number] ([Number]) years.
+
+
+This Confidentiality section establishes strict protocols for handling sensitive information exchanged between [Client Company Name] and [Service Provider Company Name]. It defines Confidential Information, outlines the Receiving Party's obligations to protect and limit its use and disclosure, and specifies exceptions to these obligations. The confidentiality terms remain in effect for [Number] years post-agreement termination.
+
+
+
+Intellectual Property
+1.  **Ownership of Pre-existing Intellectual Property:** Each Party shall retain all ownership rights to its Intellectual Property existing prior to the Effective Date of this Agreement or developed independently of this Agreement. This includes, but is not limited to, [Client Company Name]'s proprietary manufacturing processes, designs, and operational data, and [Service Provider Company Name]'s proprietary diagnostic tools, maintenance methodologies, and software used in the provision of its services.
+
+2.  **Ownership of Developed Intellectual Property:** Any Intellectual Property developed jointly by both Parties during the performance of this Agreement shall be jointly owned by [Client Company Name] and [Service Provider Company Name], unless otherwise agreed upon in writing by both Parties. Specific ownership and licensing terms for jointly developed Intellectual Property will be detailed in a separate written agreement.
+
+3.  **License to Use Intellectual Property:**
+    a.  [Service Provider Company Name] grants to [Client Company Name] a non-exclusive, non-transferable, royalty-free license to use any of [Service Provider Company Name]'s Intellectual Property solely to the extent necessary for [Client Company Name] to operate and maintain the deployed industrial machines during the term of this Agreement. This license shall terminate upon the termination of this Agreement.
+    b.  [Client Company Name] grants to [Service Provider Company Name] a non-exclusive, non-transferable, royalty-free license to use [Client Company Name]'s Intellectual Property solely to the extent necessary for [Service Provider Company Name] to perform its obligations under this Agreement, including deployment, maintenance, and repair services. This license shall terminate upon the termination of this Agreement.
+
+4.  **Confidentiality:** Both Parties agree to maintain the confidentiality of each other's Intellectual Property and any proprietary information disclosed during the course of this Agreement, in accordance with the Confidentiality section of this Service Agreement.
+
+5.  **No Implied Licenses:** Nothing in this Agreement shall be construed as granting any license or right by implication, estoppel, or otherwise, to any Intellectual Property of either Party, except as expressly set forth herein.
+
+
+This section clarifies ownership of intellectual property. Pre-existing IP remains with its original owner. Jointly developed IP will be jointly owned unless otherwise agreed. Limited licenses are granted for each party to use the other's IP solely for the purposes of this agreement, covering machine operation, maintenance, and service provision. Confidentiality of IP is also emphasized.
+
+
+
+Indemnification
+**1. Indemnification by Service Provider:**
+[Service Provider Company Name], a [Legal Structure of Service Provider] organized and existing under the laws of [Jurisdiction of Service Provider], with its principal place of business at [Principal Business Address of Service Provider] (hereinafter referred to as "Service Provider"), shall indemnify, defend, and hold harmless [Client Company Name], a [Legal Structure of Client] organized and existing under the laws of [Jurisdiction of Client], with its principal place of business at [Principal Business Address of Client] (hereinafter referred to as "Client"), its officers, directors, employees, agents, and affiliates, from and against any and all claims, liabilities, damages, losses, costs, expenses, and causes of action, including reasonable attorneys' fees, arising out of or relating to:
+    a. Any gross negligence or willful misconduct of the Service Provider, its employees, agents, or subcontractors in the performance of the services under this Agreement.
+    b. Any breach of any warranty or representation made by the Service Provider in this Agreement.
+    c. Any infringement of any intellectual property rights by the services or equipment provided by the Service Provider, except to the extent such infringement arises from Client's modification or misuse of the equipment or services.
+    d. Any bodily injury, death, or property damage caused by the acts or omissions of the Service Provider, its employees, agents, or subcontractors during the performance of the services.
+
+**2. Indemnification by Client:**
+Client shall indemnify, defend, and hold harmless Service Provider, its officers, directors, employees, agents, and affiliates, from and against any and all claims, liabilities, damages, losses, costs, expenses, and causes of action, including reasonable attorneys' fees, arising out of or relating to:
+    a. Any gross negligence or willful misconduct of the Client, its employees, or agents in relation to the deployment or maintenance of the industrial machines.
+    b. Any breach of any warranty or representation made by the Client in this Agreement.
+    c. Client's failure to provide accurate or complete information required for the proper deployment or maintenance of the industrial machines.
+    d. Any bodily injury, death, or property damage caused by the acts or omissions of the Client, its employees, or agents, except to the extent such injury, death, or damage is caused by the negligence or willful misconduct of the Service Provider.
+
+**3. Procedure for Indemnification:**
+The party seeking indemnification (the "Indemnified Party") shall promptly notify the other party (the "Indemnifying Party") in writing of any claim, demand, suit, or proceeding for which it seeks indemnification. The Indemnifying Party shall have the right to control the defense and settlement of any such claim, provided that the Indemnifying Party shall not settle any claim in a manner that admits fault or liability on behalf of the Indemnified Party without the Indemnified Party's prior written consent, which consent shall not be unreasonably withheld. The Indemnified Party shall cooperate with the Indemnifying Party in the defense of any such claim.
+
+
+This Indemnification section outlines the responsibilities of both [Client Company Name] and [Service Provider Company Name] to protect each other from financial losses and legal claims. The Service Provider agrees to cover claims arising from its negligence, breaches, or intellectual property infringements related to the services. The Client agrees to cover claims stemming from its negligence, breaches, or failure to provide necessary information. Both parties will cooperate in defending against any covered claims.
+
+
+
+Limitation of Liability
+1.  **Exclusion of Indirect Damages:** Notwithstanding any other provision of this Service Contract, neither party shall be liable to the other for any indirect, consequential, special, incidental, punitive, or exemplary damages, including but not limited to lost profits, lost revenue, loss of use, loss of data, business interruption, or loss of goodwill, arising out of or in connection with this Service Contract, the deployment, maintenance, or use of the industrial machinery, or any services provided hereunder, regardless of the theory of liability (contract, tort, warranty, or otherwise), even if the party has been advised of the possibility of such damages.
+
+2.  **Cap on Direct Damages:** Except for liabilities arising from gross negligence, willful misconduct, or breach of confidentiality obligations, the total aggregate liability of each party to the other party under this Service Contract, whether in contract, tort, warranty, or otherwise, for any and all claims arising out of or in connection with this Service Contract, the deployment, maintenance, or use of the industrial machinery, or any services provided hereunder, shall not exceed the total fees paid by the Client to the Service Provider under this Service Contract during the twelve (12) month period immediately preceding the event giving rise to the claim.
+
+3.  **Exceptions:** The limitations of liability set forth in this Section shall not apply to:
+    a.  Obligations of indemnification expressly set forth in the Indemnification section of this Service Contract.
+    b.  Breaches of intellectual property rights.
+    c.  Liabilities arising from a party's gross negligence or willful misconduct.
+    d.  Confidentiality obligations.
+    e.  Payment obligations of the Client.
+
+4.  **No Liability for Third-Party Actions:** Neither party shall be liable for the acts or omissions of third parties, except to the extent such acts or omissions are caused by the negligence or willful misconduct of the party seeking to be excused.
+
+
+This section limits liability for indirect damages like lost profits. Direct damages are capped at the total fees paid in the preceding 12 months, excluding gross negligence, willful misconduct, IP breaches, confidentiality breaches, and client payment obligations. Neither party is liable for third-party actions unless caused by their own negligence.
+
+
+
+Termination
+This Service Agreement may be terminated by either party under the following conditions:
+
+1.  **Termination for Cause:** Either party may terminate this Agreement with immediate effect by providing written notice to the other party if the other party:
+    a.  Materially breaches any term or condition of this Agreement and fails to cure such breach within thirty (30) days of receiving written notice specifying the breach.
+    b.  Becomes insolvent, files a petition for bankruptcy, makes an assignment for the benefit of creditors, or has a receiver or trustee appointed for its assets.
+
+2.  **Termination for Convenience:** [Client Company Name] may terminate this Agreement for any reason upon providing ninety (90) days' prior written notice to [Service Provider Company Name]. [Service Provider Company Name] may terminate this Agreement for any reason upon providing one hundred and eighty (180) days' prior written notice to [Client Company Name].
+
+3.  **Effect of Termination:** Upon termination or expiration of this Agreement:
+    a.  [Service Provider Company Name] shall cease all services provided under this Agreement.
+    b.  [Client Company Name] shall pay [Service Provider Company Name] for all services rendered and expenses incurred up to the effective date of termination.
+    c.  Both parties shall promptly return or destroy all Confidential Information of the other party, as defined in the Confidentiality section, in their possession or control. The obligations regarding Confidential Information shall survive the termination of this Agreement for the period specified in the Confidentiality section.
+    d.  Any accrued rights or obligations of either party existing prior to the termination date shall survive.
+
+4.  **No Liability for Termination:** Except as otherwise expressly provided herein, neither party shall be liable to the other for damages of any kind arising solely from termination of this Agreement in accordance with its terms.
+
+
+This section outlines the conditions under which the Service Agreement can be terminated. Termination can occur for cause, such as a material breach or insolvency, with a cure period for breaches. Either party can also terminate for convenience with advance written notice. Upon termination, services cease, outstanding payments are due, and both parties must return or destroy confidential information, with confidentiality obligations surviving termination. No liability arises solely from a valid termination.
+
+
+
+Governing Law and Dispute Resolution
+This Service Agreement shall be governed by and construed in accordance with the laws of the State of [State Name], without regard to its conflict of laws principles. Any dispute, controversy, or claim arising out of or relating to this Service Agreement, including its formation, interpretation, performance, breach, termination, or validity, shall be settled by arbitration administered by the American Arbitration Association under its Commercial Arbitration Rules. The arbitration shall take place in [City, State], and the award rendered by the arbitrator(s) shall be final and binding upon both parties. The parties agree to submit to the exclusive jurisdiction of the courts of the State of [State Name] for any action to enforce the arbitration award or for any equitable relief not subject to arbitration.
+
+
+
+
+Entire Agreement
+This Service Agreement constitutes the entire agreement between the Parties concerning the subject matter hereof and supersedes all prior and contemporaneous agreements, understandings, negotiations, and discussions, whether oral or written, of the Parties. No modification, amendment, or waiver of any provision of this Service Agreement shall be effective unless in writing and signed by authorized representatives of both Parties. This Service Agreement shall be governed by and construed in accordance with the laws of the State of [State Name], without regard to its conflict of laws principles. Any dispute, controversy, or claim arising out of or relating to this Service Agreement, or the breach, termination, or invalidity thereof, shall be settled by binding arbitration administered by the American Arbitration Association in accordance with its Commercial Arbitration Rules. The arbitration shall take place in [City, State]. The Parties hereby consent to the exclusive jurisdiction of the state and federal courts located in [State Name] for the purpose of enforcing any arbitration award or for seeking any equitable relief.
+
+
+
+
+Notices
+All notices, requests, demands, and other communications under this Service Agreement ("Notices") shall be in writing and shall be deemed to have been duly given when delivered personally, sent by certified or registered mail, postage prepaid, return receipt requested, or by reputable overnight courier service to the following addresses:
+
+To the Company:
+[Company Name]
+[Company Address]
+[Company Contact Person]
+[Company Email Address]
+
+To the Service Provider:
+[Service Provider Name]
+[Service Provider Address]
+[Service Provider Contact Person]
+[Service Provider Email Address]
+
+Either party may change its address for Notices by giving written notice to the other party in accordance with the provisions of this Section. Notices shall be deemed effective upon receipt.
+
+
+

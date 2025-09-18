@@ -1,16 +1,22 @@
 import { errorHandlingFetcher } from "@/lib/fetcher";
 import useSWR, { mutate } from "swr";
-import { OnyxBotAnalytics, QueryAnalytics, UserAnalytics } from "./usage/types";
+import {
+  ChatSessionMinimal,
+  OnyxBotAnalytics,
+  QueryAnalytics,
+  UserAnalytics,
+} from "./usage/types";
 import { useState } from "react";
 import { buildApiPath } from "@/lib/urlBuilder";
+import { Feedback } from "@/lib/types";
 
 import {
   convertDateToEndOfDay,
   convertDateToStartOfDay,
   getXDaysAgo,
-} from "../../../../components/dateRangeSelectors/dateUtils";
-import { THIRTY_DAYS } from "../../../../components/dateRangeSelectors/AdminDateRangeSelector";
-import { DateRangePickerValue } from "@/components/dateRangeSelectors/AdminDateRangeSelector";
+} from "./dateUtils";
+import { DateRange, THIRTY_DAYS } from "./DateRangeSelector";
+import { DateRangePickerValue } from "@/app/ee/admin/performance/DateRangeSelector";
 
 export const useTimeRange = () => {
   return useState<DateRangePickerValue>({
@@ -134,5 +140,25 @@ export const usePersonaUniqueUsers = (
     error,
     isLoading,
     refreshPersonaUniqueUsers: () => mutate(url),
+  };
+};
+
+export interface DailyTokenUsage {
+  total_tokens: number;
+  date: string;
+  model_used: string;
+}
+
+export const useTokenUsageAnalyticsforAdmin = (timeRange: DateRangePickerValue) => {
+  const url = buildApiPath("/api/analytics/admin/token-usage", {
+    start: convertDateToStartOfDay(timeRange.from)?.toISOString(),
+    end: convertDateToEndOfDay(timeRange.to)?.toISOString(),
+  });
+
+  const swrResponse = useSWR<DailyTokenUsage[]>(url, errorHandlingFetcher);
+
+  return {
+    ...swrResponse,
+    refreshTokenUsageAnalytics: () => mutate(url),
   };
 };

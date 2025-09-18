@@ -140,8 +140,8 @@ export function WhitelabelingForm() {
             <TextFormField
               label="Application Name"
               name="application_name"
-              subtext={`The custom name you are giving Onyx for your team. This will replace 'Onyx' everywhere in the UI.`}
-              placeholder="Custom name which will replace 'Onyx'"
+              subtext={`The custom name you are giving Techpeek AI for your team. This will replace 'Techpeek AI' everywhere in the UI.`}
+              placeholder="Custom name which will replace 'Techpeek AI'"
               disabled={isSubmitting}
             />
             <div>
@@ -181,7 +181,7 @@ export function WhitelabelingForm() {
                 </div>
               ) : (
                 <SubLabel>
-                  Specify your own logo to replace the standard Onyx logo.
+                  Specify your own logo to replace the standard Techpeek AI logo.
                 </SubLabel>
               )}
 
@@ -200,16 +200,6 @@ export function WhitelabelingForm() {
 
             {showAdvancedOptions && (
               <div className="w-full flex flex-col gap-y-4">
-                <Text>
-                  Read{" "}
-                  <Link
-                    href={"https://docs.onyx.app/enterprise_edition/theming"}
-                    className="text-link cursor-pointer"
-                  >
-                    the docs
-                  </Link>{" "}
-                  to see whitelabeling examples in action.
-                </Text>
 
                 <TextFormField
                   label="Chat Header Content"
@@ -237,9 +227,8 @@ export function WhitelabelingForm() {
                   subtext={
                     values.enable_consent_screen
                       ? `The title for the consent screen that will be displayed for each user on their initial visit to the application. If left blank, title will default to "Terms of Use".`
-                      : `The title for the popup that will be displayed for each user on their initial visit to the application. If left blank AND Custom Popup Content is specified, will use "Welcome to ${
-                          values.application_name || "Onyx"
-                        }!".`
+                      : `The title for the popup that will be displayed for each user on their initial visit to the application. If left blank AND Custom Popup Content is specified, will use "Welcome to ${values.application_name || "Techpeek AI"
+                      }!".`
                   }
                   placeholder={
                     values.enable_consent_screen

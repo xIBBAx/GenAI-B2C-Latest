@@ -1,5 +1,6 @@
 "use client";
 
+import { FiBarChart2 } from "react-icons/fi";
 import { useState, useRef, useContext, useEffect, useMemo } from "react";
 import { FiLogOut } from "react-icons/fi";
 import Link from "next/link";
@@ -101,16 +102,15 @@ export function UserDropdown({
         return;
       }
 
-      // Construct the current URL
-      const currentUrl = `${pathname}${
-        searchParams?.toString() ? `?${searchParams.toString()}` : ""
-      }`;
+      // // Construct the current URL
+      // const currentUrl = `${pathname}${searchParams?.toString() ? `?${searchParams.toString()}` : ""
+      //   }`;
 
-      // Encode the current URL to use as a redirect parameter
-      const encodedRedirect = encodeURIComponent(currentUrl);
+      // // Encode the current URL to use as a redirect parameter
+      // const encodedRedirect = encodeURIComponent(currentUrl);
 
       // Redirect to login page with the current page as a redirect parameter
-      router.push(`/auth/login?next=${encodedRedirect}`);
+      router.push(`/auth/login`);
     });
   };
 
@@ -261,17 +261,26 @@ export function UserDropdown({
                   />
                 )}
 
+                {user &&
+                  user.role !== UserRole.ADMIN &&
+                  page !== "token-usage" && (
+                    <DropdownOption
+                      href="/performance/token-usage"
+                      icon={<FiBarChart2 size={16} className="my-auto" />}
+                      label="Token Usage"
+                    />
+                  )}
+
                 <DropdownOption
                   onClick={() => {
                     setUserInfoVisible(true);
                     setShowNotifications(true);
                   }}
                   icon={<BellIcon size={16} className="my-auto" />}
-                  label={`Notifications ${
-                    notifications && notifications.length > 0
-                      ? `(${notifications.length})`
-                      : ""
-                  }`}
+                  label={`Notifications ${notifications && notifications.length > 0
+                    ? `(${notifications.length})`
+                    : ""
+                    }`}
                 />
 
                 {showLogout &&

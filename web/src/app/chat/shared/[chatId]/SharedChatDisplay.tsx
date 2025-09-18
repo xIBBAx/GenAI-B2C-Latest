@@ -36,7 +36,7 @@ function BackToOnyxButton({
     <div className="absolute bottom-0 bg-background w-full flex border-t border-border py-4">
       <div className="mx-auto">
         <Link href="/chat">
-          Back to {enterpriseSettings?.application_name || "Onyx Chat"}
+          Back to {enterpriseSettings?.application_name || "Techpeek AI Chat"}
         </Link>
       </div>
       <div
@@ -112,16 +112,16 @@ export function SharedChatDisplay({
               selectedMessage={
                 selectedMessageForDocDisplay
                   ? messages.find(
-                      (message) =>
-                        message.messageId === selectedMessageForDocDisplay
-                    ) || null
+                    (message) =>
+                      message.messageId === selectedMessageForDocDisplay
+                  ) || null
                   : null
               }
               toggleDocumentSelection={() => {
                 setDocumentSidebarVisible(true);
               }}
               selectedDocuments={[]}
-              clearSelectedDocuments={() => {}}
+              clearSelectedDocuments={() => { }}
               selectedDocumentTokens={0}
               maxTokens={0}
               initialWidth={400}
@@ -170,15 +170,15 @@ export function SharedChatDisplay({
                   selectedMessage={
                     selectedMessageForDocDisplay
                       ? messages.find(
-                          (message) =>
-                            message.messageId === selectedMessageForDocDisplay
-                        ) || null
+                        (message) =>
+                          message.messageId === selectedMessageForDocDisplay
+                      ) || null
                       : null
                   }
                   toggleDocumentSelection={() => {
                     setDocumentSidebarVisible(true);
                   }}
-                  clearSelectedDocuments={() => {}}
+                  clearSelectedDocuments={() => { }}
                   selectedDocumentTokens={0}
                   maxTokens={0}
                   initialWidth={400}
@@ -194,9 +194,9 @@ export function SharedChatDisplay({
             <div className="flex mobile:hidden max-h-full overflow-hidden ">
               <FunctionalHeader
                 sidebarToggled={false}
-                toggleSidebar={() => {}}
+                toggleSidebar={() => { }}
                 page="chat"
-                reset={() => {}}
+                reset={() => { }}
               />
             </div>
 
@@ -215,11 +215,10 @@ export function SharedChatDisplay({
                       h-full absolute top-0  z-10 w-full sm:w-[90%] lg:w-[70%]
                       bg-gradient-to-b via-50% z-[-1] from-background via-background to-background/10 flex
                       transition-all duration-300 ease-in-out
-                      ${
-                        documentSidebarVisible
+                      ${documentSidebarVisible
                           ? "left-[200px] transform -translate-x-[calc(50%+100px)]"
                           : "left-1/2 transform -translate-x-1/2"
-                      }
+                        }
                     `}
                     />
                   </div>
@@ -240,19 +239,19 @@ export function SharedChatDisplay({
                       } else if (message.type === "assistant") {
                         const secondLevelMessage =
                           messages[messages.indexOf(message) + 1]?.type ===
-                          "assistant"
+                            "assistant"
                             ? messages[messages.indexOf(message) + 1]
                             : undefined;
 
                         const secondLevelAssistantMessage =
                           messages[messages.indexOf(message) + 1]?.type ===
-                          "assistant"
+                            "assistant"
                             ? messages[messages.indexOf(message) + 1]?.message
                             : undefined;
 
                         const agenticDocs =
                           messages[messages.indexOf(message) + 1]?.type ===
-                          "assistant"
+                            "assistant"
                             ? messages[messages.indexOf(message) + 1]?.documents
                             : undefined;
 
@@ -277,7 +276,7 @@ export function SharedChatDisplay({
                               )}
                               secondLevelAssistantMessage={
                                 (message.second_level_message &&
-                                message.second_level_message.length > 0
+                                  message.second_level_message.length > 0
                                   ? message.second_level_message
                                   : secondLevelAssistantMessage) || undefined
                               }
@@ -319,7 +318,7 @@ export function SharedChatDisplay({
                                   !documentSidebarVisible ||
                                   (documentSidebarVisible &&
                                     selectedMessageForDocDisplay ===
-                                      message.messageId)
+                                    message.messageId)
                                 ) {
                                   setDocumentSidebarVisible(
                                     !documentSidebarVisible
@@ -359,7 +358,7 @@ export function SharedChatDisplay({
                                   !documentSidebarVisible ||
                                   (documentSidebarVisible &&
                                     selectedMessageForDocDisplay ===
-                                      message.messageId)
+                                    message.messageId)
                                 ) {
                                   setDocumentSidebarVisible(
                                     !documentSidebarVisible

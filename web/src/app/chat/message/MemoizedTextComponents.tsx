@@ -88,10 +88,10 @@ export const MemoizedAnchor = memo(
         }
         const associatedDocInfo = associatedDoc
           ? {
-              ...associatedDoc,
-              icon: icon as any,
-              link: associatedDoc.link,
-            }
+            ...associatedDoc,
+            icon: icon as any,
+            link: associatedDoc.link,
+          }
           : undefined;
 
         return (
@@ -135,19 +135,19 @@ export const MemoizedLink = memo(
     const questionCardProps: QuestionCardProps | undefined =
       question && openQuestion
         ? {
-            question: question,
-            openQuestion: openQuestion,
-          }
+          question: question,
+          openQuestion: openQuestion,
+        }
         : undefined;
 
     const documentCardProps: DocumentCardProps | undefined =
       document && updatePresentingDocument
         ? {
-            url: document.link,
-            icon: document.icon as unknown as React.ReactNode,
-            document: document as LoadedOnyxDocument,
-            updatePresentingDocument: updatePresentingDocument!,
-          }
+          url: document.link,
+          icon: document.icon as unknown as React.ReactNode,
+          document: document as LoadedOnyxDocument,
+          updatePresentingDocument: updatePresentingDocument!,
+        }
         : undefined;
 
     if (value?.toString().startsWith("*")) {
@@ -200,9 +200,8 @@ export const MemoizedParagraph = memo(
   function MemoizedParagraph({ children, fontSize }: any) {
     return (
       <p
-        className={`text-neutral-900 dark:text-neutral-200 my-0 ${
-          fontSize === "sm" ? "leading-tight text-sm" : ""
-        }`}
+        className={`text-neutral-900 dark:text-neutral-200 my-0 ${fontSize === "sm" ? "leading-tight text-sm" : ""
+          }`}
       >
         {children}
       </p>

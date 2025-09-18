@@ -168,7 +168,7 @@ const DocumentSetTable = ({
                             <div
                               className={
                                 ind !==
-                                documentSet.cc_pair_descriptors.length - 1
+                                  documentSet.cc_pair_descriptors.length - 1
                                   ? "mb-3"
                                   : ""
                               }
@@ -298,7 +298,7 @@ const Main = () => {
       <Text className="mb-3">
         <b>Document Sets</b> allow you to group logically connected documents
         into a single bundle. These can then be used as a filter when performing
-        searches to control the scope of information Onyx searches over.
+        searches to control the scope of information Techpeek AI searches over.
       </Text>
 
       <div className="mb-3"></div>

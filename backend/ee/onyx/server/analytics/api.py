@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from ee.onyx.db.analytics import fetch_assistant_message_analytics
+from ee.onyx.db.analytics import fetch_daily_token_usage_by_model
 from ee.onyx.db.analytics import fetch_assistant_unique_users
 from ee.onyx.db.analytics import fetch_assistant_unique_users_total
 from ee.onyx.db.analytics import fetch_onyxbot_analytics
@@ -92,7 +93,69 @@ def get_user_analytics(
         )
         for date, cnt in user_analytics.items()
     ]
+    
+class DailyTokenUsageResponse(BaseModel):
+    total_tokens: int
+    date: datetime.date
+    model_used: str
 
+# Fetches daily token usage by model for admin and public endpoints
+@router.get("/admin/token-usage")
+def get_daily_token_usage(
+    start: datetime.datetime | None = None,
+    end: datetime.datetime | None = None,
+    _: User | None = Depends(current_admin_user),
+    db_session: Session = Depends(get_session),
+) -> list[DailyTokenUsageResponse]:
+    """
+    Admin version of token usage analytics — available to all authenticated Admin users.
+    """
+    start = start or (datetime.datetime.utcnow() - datetime.timedelta(days=30))
+    end = end or datetime.datetime.utcnow()
+
+    daily_data = fetch_daily_token_usage_by_model(
+        db_session=db_session,
+        start=start,
+        end=end,
+    )
+
+    return [
+        DailyTokenUsageResponse(
+            total_tokens=row["total_tokens"],
+            date=row["date"],
+            model_used=row["model_used"],
+        )
+        for row in daily_data
+    ]
+
+@router.get("/token-usage", response_model=List[DailyTokenUsageResponse])
+def get_daily_token_usage_public(
+    start: datetime.datetime | None = None,
+    end: datetime.datetime | None = None,
+    current_user: User = Depends(current_user),
+    db_session: Session = Depends(get_session),
+) -> list[DailyTokenUsageResponse]:
+    """
+    Public version of token usage analytics — available to all authenticated users.
+    """
+    start = start or (datetime.datetime.utcnow() - datetime.timedelta(days=30))
+    end = end or datetime.datetime.utcnow()
+
+    daily_data = fetch_daily_token_usage_by_model(
+        db_session=db_session,
+        start=start,
+        end=end,
+        user_id=current_user.id,
+    )
+
+    return [
+        DailyTokenUsageResponse(
+            total_tokens=row["total_tokens"],
+            date=row["date"],
+            model_used=row["model_used"],
+        )
+        for row in daily_data
+    ]
 
 class OnyxbotAnalyticsResponse(BaseModel):
     total_queries: int

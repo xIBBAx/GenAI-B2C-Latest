@@ -1,9 +1,9 @@
 from typing import cast
 from uuid import UUID
 
-from pydantic import BaseModel
-from pydantic import Field
-from sqlalchemy.orm import Session
+from pydantic import BaseModel # type: ignore
+from pydantic import Field # type: ignore
+from sqlalchemy.orm import Session # type: ignore
 
 from onyx.chat.models import AnswerStyleConfig
 from onyx.chat.models import CitationConfig
@@ -13,7 +13,7 @@ from onyx.configs.app_configs import AZURE_DALLE_API_BASE
 from onyx.configs.app_configs import AZURE_DALLE_API_KEY
 from onyx.configs.app_configs import AZURE_DALLE_API_VERSION
 from onyx.configs.app_configs import AZURE_DALLE_DEPLOYMENT_NAME
-from onyx.configs.chat_configs import BING_API_KEY
+# from onyx.configs.chat_configs import BING_API_KEY
 from onyx.configs.model_configs import GEN_AI_TEMPERATURE
 from onyx.context.search.enums import LLMEvaluationType
 from onyx.context.search.models import InferenceSection
@@ -43,6 +43,7 @@ from onyx.tools.utils import compute_all_tool_tokens
 from onyx.tools.utils import explicit_tool_calling_supported
 from onyx.utils.headers import header_dict_to_header_list
 from onyx.utils.logger import setup_logger
+import os
 
 logger = setup_logger()
 
@@ -215,13 +216,18 @@ def construct_tools(
                 if not internet_search_tool_config:
                     internet_search_tool_config = InternetSearchToolConfig()
 
-                if not BING_API_KEY:
+                google_api_key = os.getenv("GOOGLE_API_KEY")
+                google_search_engine_id = os.getenv("GOOGLE_SEARCH_ENGINE_ID")
+
+                if not google_api_key or not google_search_engine_id:
                     raise ValueError(
-                        "Internet search tool requires a Bing API key, please contact your Onyx admin to get it added!"
+                        "Google API key not found! Please set GOOGLE_API_KEY and GOOGLE_SEARCH_ENGINE_ID."
                     )
+
                 tool_dict[db_tool_model.id] = [
                     InternetSearchTool(
-                        api_key=BING_API_KEY,
+                        api_key=google_api_key,
+                        search_engine_id=google_search_engine_id,
                         answer_style_config=internet_search_tool_config.answer_style_config,
                         prompt_config=prompt_config,
                     )

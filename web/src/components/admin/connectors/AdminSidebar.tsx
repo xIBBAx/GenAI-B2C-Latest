@@ -28,14 +28,16 @@ export function AdminSidebar({ collections }: { collections: Collection[] }) {
   return (
     <div className="text-text-settings-sidebar pl-0">
       <nav className="space-y-2">
-        <div className="w-full ml-4  mt-1 h-8 justify-start mb-4 flex">
-          <LogoComponent
-            show={true}
-            enterpriseSettings={enterpriseSettings!}
-            backgroundToggled={false}
-            isAdmin={true}
-          />
-        </div>
+        <Link href="/chat" className="ml-4 mt-1 mb-4 h-8 flex justify-start w-full cursor-pointer">
+          <div title="Go to Chat" className="cursor-pointer">
+            <LogoComponent
+              show={true}
+              enterpriseSettings={enterpriseSettings!}
+              backgroundToggled={false}
+              isAdmin={true}
+            />
+          </div>
+        </Link>
         <div className="flex w-full justify-center">
           <Link href="/chat">
             <button className="text-sm text-text-700 hover:bg-background-settings-hover dark:hover:bg-neutral-800 flex items-center block w-52 py-2.5 flex px-2 text-left hover:bg-opacity-80 cursor-pointer rounded">
@@ -72,7 +74,7 @@ export function AdminSidebar({ collections }: { collections: Collection[] }) {
           key={"onyxVersion"}
         >
           <h2 className="text-xs text-text/40 w-52 font-medium">
-            Onyx version: {combinedSettings.webVersion}
+            Techpeek AI version: {combinedSettings.webVersion}
           </h2>
         </div>
       )}

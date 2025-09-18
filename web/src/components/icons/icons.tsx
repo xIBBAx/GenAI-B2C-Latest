@@ -1402,7 +1402,7 @@ export const ZendeskIcon = ({
     <LogoIcon
       size={
         typeof window !== "undefined" &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches
+          window.matchMedia("(prefers-color-scheme: dark)").matches
           ? size * 0.8
           : size
       }
@@ -3222,6 +3222,178 @@ export const SearchAssistantIcon = ({
     </svg>
   );
 };
+
+export const CasePredictionIcon = ({
+  size = 24,
+  className = defaultTailwindCSS,
+}: IconProps) => {
+  return (
+    <svg
+      style={{ width: `${size}px`, height: `${size}px` }}
+      className={`w-[${size}px] h-[${size}px] ` + className}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="0.65"
+        y="0.65"
+        width="22.7"
+        height="22.7"
+        rx="11.35"
+        stroke="currentColor"
+        strokeWidth="1.3"
+      />
+      <path
+        d="M12 4V5M12 5L9 12H15L12 5ZM9 12L7 17H17L15 12M12 17V20"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const DocgenIcon = ({ size = 24, className = "" }: IconProps) => (
+  <svg
+    style={{ width: `${size}px`, height: `${size}px` }}
+    className={`w-[${size}px] h-[${size}px] ${className}`}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect x="0.65" y="0.65" width="22.7" height="22.7" rx="11.35" stroke="currentColor" strokeWidth="1.3" />
+    <path d="M8 7H16V9H8V7ZM8 11H13V13H8V11ZM8 15H12V17H8V15Z" fill="currentColor" />
+  </svg>
+);
+
+export const LegacySearchIcon = ({ size = 24, className = "" }: IconProps) => (
+  <svg
+    style={{ width: `${size}px`, height: `${size}px` }}
+    className={`w-[${size}px] h-[${size}px] ${className}`}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect x="0.65" y="0.65" width="22.7" height="22.7" rx="11.35" stroke="currentColor" strokeWidth="1.3" />
+    <path
+      d="M10 14L14 10M14 10L12.5 15.5M14 10L8.5 11.5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const LegacySearchIconAssistant = ({
+  size = 24,
+  className = "",
+}: IconProps) => (
+  <svg
+    style={{ width: `${size}px`, height: `${size}px` }}
+    className={`w-[${size}px] h-[${size}px] ${className}`}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      x="0.65"
+      y="0.65"
+      width="22.7"
+      height="22.7"
+      rx="11.35"
+      stroke="currentColor"
+      strokeWidth="1.3"
+    />
+    <path
+      d="M9 7H15C15.5523 7 16 7.44772 16 8V16C16 16.5523 15.5523 17 15 17H9C8.44772 17 8 16.5523 8 16V8C8 7.44772 8.44772 7 9 7Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M10 10H14"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M10 13H14"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+export const DeepSearchIcon = ({ size = 24, className = "" }: IconProps) => (
+  <svg
+    style={{ width: `${size}px`, height: `${size}px` }}
+    className={`w-[${size}px] h-[${size}px] ${className}`}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      x="0.65"
+      y="0.65"
+      width="22.7"
+      height="22.7"
+      rx="11.35"
+      stroke="currentColor"
+      strokeWidth="1.3"
+    />
+    <path
+      d="M10.5 10.5L13.5 13.5M9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M6 6L7 7"
+      stroke="currentColor"
+      strokeWidth="1.3"
+      strokeLinecap="round"
+    />
+    <path
+      d="M18 6L17 7"
+      stroke="currentColor"
+      strokeWidth="1.3"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+export const ParaphraseIcon = ({ size = 24, className = "" }: IconProps) => (
+  <svg
+    style={{ width: `${size}px`, height: `${size}px` }}
+    className={`w-[${size}px] h-[${size}px] ${className}`}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      x="0.65"
+      y="0.65"
+      width="22.7"
+      height="22.7"
+      rx="11.35"
+      stroke="currentColor"
+      strokeWidth="1.3"
+    />
+    <path
+      d="M8 9H16M8 12H14M8 15H12"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
 
 export const SortIcon = ({
   size = 24,

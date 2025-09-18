@@ -32,8 +32,8 @@ export interface Option {
   label: string | ((currentCredential: Credential<any> | null) => string);
   name: string;
   description?:
-    | string
-    | ((currentCredential: Credential<any> | null) => string);
+  | string
+  | ((currentCredential: Credential<any> | null) => string);
   query?: string;
   optional?: boolean;
   hidden?: boolean;
@@ -141,7 +141,7 @@ export const connectorConfigs: Record<
     values: [
       {
         type: "text",
-        query: "Enter the website URL to scrape e.g. https://docs.onyx.app/:",
+        query: "Enter the website URL to scrape e.g. https://enterprise.techpeek.in/:",
         label: "Base URL",
         name: "base_url",
         optional: false,
@@ -309,8 +309,8 @@ export const connectorConfigs: Record<
                 label: "Include shared drives?",
                 description: (currentCredential) => {
                   return currentCredential?.credential_json?.google_tokens
-                    ? "This will allow Onyx to index everything in the shared drives you have access to."
-                    : "This will allow Onyx to index everything in your Organization's shared drives.";
+                    ? "This will allow Techpeek AI to index everything in the shared drives you have access to."
+                    : "This will allow Techpeek AI to index everything in your Organization's shared drives.";
                 },
                 name: "include_shared_drives",
                 default: false,
@@ -324,8 +324,8 @@ export const connectorConfigs: Record<
                 },
                 description: (currentCredential) => {
                   return currentCredential?.credential_json?.google_tokens
-                    ? "This will allow Onyx to index everything in your My Drive."
-                    : "This will allow Onyx to index everything in everyone's My Drives.";
+                    ? "This will allow Techpeek AI to index everything in your My Drive."
+                    : "This will allow Techpeek AI to index everything in everyone's My Drives.";
                 },
                 name: "include_my_drives",
                 default: false,
@@ -333,7 +333,7 @@ export const connectorConfigs: Record<
               {
                 type: "checkbox",
                 description:
-                  "This will allow Onyx to index all files shared with you.",
+                  "This will allow Techpeek AI to index all files shared with you.",
                 label: "Include All Files Shared With You?",
                 name: "include_files_shared_with_me",
                 visibleCondition: (values, currentCredential) =>
@@ -595,7 +595,7 @@ export const connectorConfigs: Record<
         label: "Requested Objects",
         name: "requested_objects",
         optional: true,
-        description: `Specify the Salesforce object types you want us to index. If unsure, don't specify any objects and Onyx will default to indexing by 'Account'.
+        description: `Specify the Salesforce object types you want us to index. If unsure, don't specify any objects and Techpeek AI will default to indexing by 'Account'.
 
 Hint: Use the singular form of the object name (e.g., 'Opportunity' instead of 'Opportunities').`,
       },
@@ -613,9 +613,9 @@ Hint: Use the singular form of the object name (e.g., 'Opportunity' instead of '
         optional: true,
         description: `• If no sites are specified, all sites in your organization will be indexed (Sites.Read.All permission required).
 
-• Specifying 'https://onyxai.sharepoint.com/sites/support' for example will only index documents within this site.
+• Specifying for example will only index documents within this site.
 
-• Specifying 'https://onyxai.sharepoint.com/sites/support/subfolder' for example will only index documents within this folder.
+• Specifying for example will only index documents within this folder.
 `,
       },
     ],
@@ -630,7 +630,7 @@ Hint: Use the singular form of the object name (e.g., 'Opportunity' instead of '
         label: "Teams",
         name: "teams",
         optional: true,
-        description: `Specify 0 or more Teams to index. For example, specifying the Team 'Support' for the 'onyxai' Org will cause us to only index messages sent in channels belonging to the 'Support' Team. If no Teams are specified, all Teams in your organization will be indexed.`,
+        description: `Specify 0 or more Teams to index. For example, specifying the Team 'Support' for the 'techpeekai' Org will cause us to only index messages sent in channels belonging to the 'Support' Team. If no Teams are specified, all Teams in your organization will be indexed.`,
       },
     ],
     advanced_values: [],
@@ -710,7 +710,7 @@ For example, specifying .*-support.* as a "channel" will cause the connector to 
         label: "Base URL",
         name: "base_url",
         optional: false,
-        description: `Specify the base URL for your Slab team. This will look something like: https://onyx.slab.com/`,
+        description: `Specify the base URL for your Slab team.`,
       },
     ],
     advanced_values: [],
@@ -1450,9 +1450,9 @@ export interface GoogleDriveConfig {
   shared_folder_urls?: string;
 }
 
-export interface GmailConfig {}
+export interface GmailConfig { }
 
-export interface BookstackConfig {}
+export interface BookstackConfig { }
 
 export interface ConfluenceConfig {
   wiki_base: string;
@@ -1494,7 +1494,7 @@ export interface TeamsConfig {
   teams?: string[];
 }
 
-export interface ProductboardConfig {}
+export interface ProductboardConfig { }
 
 export interface SlackConfig {
   workspace: string;
@@ -1506,7 +1506,7 @@ export interface SlabConfig {
   base_url: string;
 }
 
-export interface GuruConfig {}
+export interface GuruConfig { }
 
 export interface GongConfig {
   workspaces?: string[];
@@ -1530,7 +1530,7 @@ export interface NotionConfig {
   root_page_id?: string;
 }
 
-export interface HubSpotConfig {}
+export interface HubSpotConfig { }
 
 export interface Document360Config {
   workspace: string;
@@ -1552,9 +1552,9 @@ export interface XenforoConfig {
   base_url: string;
 }
 
-export interface ZendeskConfig {}
+export interface ZendeskConfig { }
 
-export interface DropboxConfig {}
+export interface DropboxConfig { }
 
 export interface S3Config {
   bucket_type: "s3";
@@ -1594,12 +1594,12 @@ export interface AsanaConfig {
   asana_team_id?: string;
 }
 
-export interface FreshdeskConfig {}
+export interface FreshdeskConfig { }
 
-export interface FirefliesConfig {}
+export interface FirefliesConfig { }
 
 export interface MediaWikiConfig extends MediaWikiBaseConfig {
   hostname: string;
 }
 
-export interface WikipediaConfig extends MediaWikiBaseConfig {}
+export interface WikipediaConfig extends MediaWikiBaseConfig { }

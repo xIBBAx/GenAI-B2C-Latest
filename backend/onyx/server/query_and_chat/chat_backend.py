@@ -10,16 +10,16 @@ from collections.abc import Generator
 from datetime import timedelta
 from uuid import UUID
 
-from fastapi import APIRouter
-from fastapi import Depends
-from fastapi import HTTPException
-from fastapi import Query
-from fastapi import Request
-from fastapi import Response
-from fastapi import UploadFile
-from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
-from sqlalchemy.orm import Session
+from fastapi import APIRouter # type: ignore
+from fastapi import Depends # type: ignore
+from fastapi import HTTPException # type: ignore
+from fastapi import Query # type: ignore
+from fastapi import Request # type: ignore
+from fastapi import Response # type: ignore
+from fastapi import UploadFile # type: ignore
+from fastapi.responses import StreamingResponse # type: ignore
+from pydantic import BaseModel # type: ignore
+from sqlalchemy.orm import Session # type: ignore
 
 from onyx.auth.users import current_chat_accessible_user
 from onyx.auth.users import current_user
@@ -652,6 +652,193 @@ def seed_chat_from_slack(
     return SeedChatFromSlackResponse(
         redirect_url=f"{WEB_DOMAIN}/chat?chatId={new_chat_session.id}"
     )
+    
+# """File upload"""
+
+
+# @router.post("/file")
+# def upload_files_for_chat(
+#     files: list[UploadFile],
+#     db_session: Session = Depends(get_session),
+#     user: User | None = Depends(current_user),
+# ) -> dict[str, list[FileDescriptor]]:
+
+#     # NOTE(rkuo): Unify this with file_validation.py and extract_file_text.py
+#     # image_content_types = {"image/jpeg", "image/png", "image/webp"}
+#     # csv_content_types = {"text/csv"}
+#     # text_content_types = {
+#     #     "text/plain",
+#     #     "text/markdown",
+#     #     "text/x-markdown",
+#     #     "text/x-config",
+#     #     "text/tab-separated-values",
+#     #     "application/json",
+#     #     "application/xml",
+#     #     "text/xml",
+#     #     "application/x-yaml",
+#     # }
+#     # document_content_types = {
+#     #     "application/pdf",
+#     #     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+#     #     "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+#     #     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+#     #     "message/rfc822",
+#     #     "application/epub+zip",
+#     # }
+
+#     # allowed_content_types = (
+#     #     image_content_types.union(text_content_types)
+#     #     .union(document_content_types)
+#     #     .union(csv_content_types)
+#     # )
+
+#     for file in files:
+#         if not file.content_type:
+#             raise HTTPException(status_code=400, detail="File content type is required")
+
+#         if file.content_type not in UploadMimeTypes.ALLOWED_MIME_TYPES:
+#             raise HTTPException(status_code=400, detail="Unsupported file type.")
+
+#         if (
+#             file.content_type in UploadMimeTypes.IMAGE_MIME_TYPES
+#             and file.size
+#             and file.size > 20 * 1024 * 1024
+#         ):
+#             raise HTTPException(
+#                 status_code=400,
+#                 detail="File size must be less than 20MB",
+#             )
+
+#     file_store = get_default_file_store(db_session)
+
+#     file_info: list[tuple[str, str | None, ChatFileType]] = []
+#     for file in files:
+#         file_type = mime_type_to_chat_file_type(file.content_type)
+
+#         file_content = file.file.read()  # Read the file content
+
+#         # NOTE: Image conversion to JPEG used to be enforced here.
+#         # This was removed to:
+#         # 1. Preserve original file content for downloads
+#         # 2. Maintain transparency in formats like PNG
+#         # 3. Ameliorate issue with file conversion
+#         file_content_io = io.BytesIO(file_content)
+
+#         new_content_type = file.content_type
+
+#         # Store the file normally
+#         file_id = str(uuid.uuid4())
+#         file_store.save_file(
+#             file_name=file_id,
+#             content=file_content_io,
+#             display_name=file.filename,
+#             file_origin=FileOrigin.CHAT_UPLOAD,
+#             file_type=new_content_type or file_type.value,
+#         )
+
+#         # 4) If the file is a doc, extract text and store that separately
+#         if file_type == ChatFileType.DOC and file.content_type == "application/pdf":
+#             file_io = io.BytesIO(file_content)
+
+#             # Check if the PDF contains selectable text
+#             try:
+#                 pdf_reader = PdfReader(file_io)
+#                 extracted_text = "".join([page.extract_text() or "" for page in pdf_reader.pages])
+#             except Exception:
+#                 extracted_text = ""
+
+#             if not extracted_text.strip():
+#                 # If no text, apply OCR
+#                 file_io.seek(0)
+#                 ocr_output = io.BytesIO()
+#                 try:
+#                     ocrmypdf.ocr(file_io, ocr_output, force_ocr=True)
+#                     extracted_text = extract_file_text(
+#                         file=ocr_output,
+#                         file_name=file.filename or "",
+#                     )
+#                 except Exception as e:
+#                     raise HTTPException(status_code=500, detail=f"OCR processing failed: {str(e)}")
+
+#             if extracted_text.strip():
+#                 text_file_id = str(uuid.uuid4())
+#                 file_store.save_file(
+#                     file_name=text_file_id,
+#                     content=io.BytesIO(extracted_text.encode()),
+#                     display_name=file.filename,
+#                     file_origin=FileOrigin.CHAT_UPLOAD,
+#                     file_type="text/plain",
+#                 )
+#                 file_info.append((text_file_id, file.filename, ChatFileType.PLAIN_TEXT))
+#             else:
+#                 file_info.append((file_id, file.filename, file_type))
+#         #     text_file_id = str(uuid.uuid4())
+
+#         #     file_store.save_file(
+#         #         file_name=text_file_id,
+#         #         content=io.BytesIO(extracted_text.encode()),
+#         #         display_name=file.filename,
+#         #         file_origin=FileOrigin.CHAT_UPLOAD,
+#         #         file_type="text/plain",
+#         #     )
+#         #     # Return the text file as the "main" file descriptor for doc types
+#         #     file_info.append((text_file_id, file.filename, ChatFileType.PLAIN_TEXT))
+#         # else:
+#         #     file_info.append((file_id, file.filename, file_type))
+
+#         # 5) Create a user file for each uploaded file
+#         user_files = create_user_files([file], RECENT_DOCS_FOLDER_ID, user, db_session)
+#         for user_file in user_files:
+#             # 6) Create connector
+#             connector_base = ConnectorBase(
+#                 name=f"UserFile-{int(time.time())}",
+#                 source=DocumentSource.FILE,
+#                 input_type=InputType.LOAD_STATE,
+#                 connector_specific_config={
+#                     "file_locations": [user_file.file_id],
+#                     "zip_metadata": {},
+#                 },
+#                 refresh_freq=None,
+#                 prune_freq=None,
+#                 indexing_start=None,
+#             )
+#             connector = create_connector(
+#                 db_session=db_session,
+#                 connector_data=connector_base,
+#             )
+
+#             # 7) Create credential
+#             credential_info = CredentialBase(
+#                 credential_json={},
+#                 admin_public=True,
+#                 source=DocumentSource.FILE,
+#                 curator_public=True,
+#                 groups=[],
+#                 name=f"UserFileCredential-{int(time.time())}",
+#                 is_user_file=True,
+#             )
+#             credential = create_credential(credential_info, user, db_session)
+
+#             # 8) Create connector credential pair
+#             cc_pair = add_credential_to_connector(
+#                 db_session=db_session,
+#                 user=user,
+#                 connector_id=connector.id,
+#                 credential_id=credential.id,
+#                 cc_pair_name=f"UserFileCCPair-{int(time.time())}",
+#                 access_type=AccessType.PRIVATE,
+#                 auto_sync_options=None,
+#                 groups=[],
+#             )
+#             user_file.cc_pair_id = cc_pair.data
+#             db_session.commit()
+
+#     return {
+#         "files": [
+#             {"id": file_id, "type": file_type, "name": file_name}
+#             for file_id, file_name, file_type in file_info
+#         ]
+#     }
 
 
 """File upload"""

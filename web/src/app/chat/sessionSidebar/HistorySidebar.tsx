@@ -23,6 +23,8 @@ import {
   DocumentIcon2,
   KnowledgeGroupIcon,
   NewChatIcon,
+  DocgenIcon,
+  LegacySearchIcon,
 } from "@/components/icons/icons";
 import { PagesTab } from "./PagesTab";
 import { pageType } from "./types";
@@ -112,9 +114,8 @@ const SortableAssistant: React.FC<SortableAssistantProps> = ({
     >
       <DragHandle
         size={16}
-        className={`w-3 ml-[2px] mr-[2px] group-hover:visible invisible flex-none cursor-grab ${
-          !pinned ? "opacity-0" : ""
-        }`}
+        className={`w-3 ml-[2px] mr-[2px] group-hover:visible invisible flex-none cursor-grab ${!pinned ? "opacity-0" : ""
+          }`}
       />
       <div
         data-testid={`assistant-[${assistant.id}]`}
@@ -124,9 +125,8 @@ const SortableAssistant: React.FC<SortableAssistantProps> = ({
             onClick();
           }
         }}
-        className={`cursor-pointer w-full group hover:bg-background-chat-hover ${
-          active ? "bg-accent-background-selected" : ""
-        } relative flex items-center gap-x-2 py-1 px-2 rounded-md`}
+        className={`cursor-pointer w-full group hover:bg-background-chat-hover ${active ? "bg-accent-background-selected" : ""
+          } relative flex items-center gap-x-2 py-1 px-2 rounded-md`}
       >
         <AssistantIcon assistant={assistant} size={16} className="flex-none" />
         <TruncatedText
@@ -318,6 +318,24 @@ export const HistorySidebar = forwardRef<HTMLDivElement, HistorySidebarProps>(
                   My Documents
                 </p>
               </Link>
+              <Link
+                className="w-full px-2 py-1 rounded-md items-center hover:bg-accent-background-hovered cursor-pointer transition-all duration-150 flex gap-x-2"
+                href="/docgen_hitl"
+              >
+                <DocgenIcon size={20} className="flex-none text-text-history-sidebar-button" />
+                <p className="my-auto flex font-normal items-center text-base">
+                  Docgen HITL
+                </p>
+              </Link>
+              {/* <Link
+                className="w-full px-2 py-1 rounded-md items-center hover:bg-accent-background-hovered cursor-pointer transition-all duration-150 flex gap-x-2"
+                href="/legacysearch"
+              >
+                <LegacySearchIcon size={20} className="flex-none text-text-history-sidebar-button" />
+                <p className="my-auto flex font-normal items-center text-base">
+                  Legacy Search
+                </p>
+              </Link> */}
               {user?.preferences?.shortcut_enabled && (
                 <Link
                   className="w-full px-2 py-1  rounded-md items-center hover:bg-accent-background-hovered cursor-pointer transition-all duration-150 flex gap-x-2"

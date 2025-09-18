@@ -37,6 +37,7 @@ from onyx.tools.tool_implementations.search_like_tool_utils import (
 )
 from onyx.utils.logger import setup_logger
 from onyx.utils.special_types import JSON_ro
+import os
 
 logger = setup_logger()
 
@@ -114,20 +115,21 @@ class InternetSearchTool(Tool[None]):
 
     def __init__(
         self,
-        api_key: str,
-        answer_style_config: AnswerStyleConfig,
-        prompt_config: PromptConfig,
+        api_key: str | None = None,
+        search_engine_id: str | None = None,
+        answer_style_config: AnswerStyleConfig = None,
+        prompt_config: PromptConfig = None,
         num_results: int = 10,
     ) -> None:
-        self.api_key = api_key
+        self.api_key = api_key or os.getenv("GOOGLE_API_KEY")
+        self.search_engine_id = search_engine_id or os.getenv("GOOGLE_SEARCH_ENGINE_ID")
+
+        if not self.api_key or not self.search_engine_id:
+            raise ValueError("Missing GOOGLE_API_KEY or GOOGLE_SEARCH_ENGINE_ID environment variables")
+
         self.answer_style_config = answer_style_config
         self.prompt_config = prompt_config
-
-        self.host = "https://api.bing.microsoft.com/v7.0"
-        self.headers = {
-            "Ocp-Apim-Subscription-Key": api_key,
-            "Content-Type": "application/json",
-        }
+        self.host = "https://www.googleapis.com/customsearch/v1"
         self.num_results = num_results
         self.client = httpx.Client()
 
@@ -190,13 +192,8 @@ class InternetSearchTool(Tool[None]):
         query: str,
         history: list[PreviousMessage],
         llm: LLM,
-        force_run: bool = False,
     ) -> dict[str, Any] | None:
-        if not force_run and not self.check_if_needs_internet_search(
-            query, history, llm
-        ):
-            return None
-
+        # Always run internet search, skip LLM check
         rephrased_query = history_based_query_rephrase(
             query=query,
             history=history,
@@ -215,31 +212,29 @@ class InternetSearchTool(Tool[None]):
 
     def _perform_search(self, query: str) -> InternetSearchResponse:
         response = self.client.get(
-            f"{self.host}/search",
-            headers=self.headers,
-            params={"q": query, "count": self.num_results},
+            self.host,
+            params={
+                "key": self.api_key,
+                "cx": self.search_engine_id,
+                "q": query,
+                "num": self.num_results,
+            },
         )
 
         response.raise_for_status()
 
         results = response.json()
-
-        # If no hits, Bing does not include the webPages key
-        search_results = (
-            results["webPages"]["value"][: self.num_results]
-            if "webPages" in results
-            else []
-        )
+        items = results.get("items", [])
 
         return InternetSearchResponse(
             revised_query=query,
             internet_results=[
                 InternetSearchResult(
-                    title=result["name"],
-                    link=result["url"],
-                    snippet=result["snippet"],
+                    title=item.get("title", ""),
+                    link=item.get("link", ""),
+                    snippet=item.get("snippet", ""),
                 )
-                for result in search_results
+                for item in items
             ],
         )
 

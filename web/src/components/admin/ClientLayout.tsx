@@ -46,75 +46,75 @@ const collections = (
   enableEnterprise: boolean,
   settings: CombinedSettings | null
 ) => [
-  {
-    name: "Connectors",
-    items: [
-      {
-        name: (
-          <div className="flex">
-            <NotebookIconSkeleton className="text-text-700" size={18} />
-            <div className="ml-1">Existing Connectors</div>
-          </div>
-        ),
-        link: "/admin/indexing/status",
-      },
-      {
-        name: (
-          <div className="flex">
-            <ConnectorIconSkeleton className="text-text-700" size={18} />
-            <div className="ml-1.5">Add Connector</div>
-          </div>
-        ),
-        link: "/admin/add-connector",
-      },
-    ],
-  },
-  {
-    name: "Document Management",
-    items: [
-      {
-        name: (
-          <div className="flex">
-            <DocumentSetIconSkeleton className="text-text-700" size={18} />
-            <div className="ml-1">Document Sets</div>
-          </div>
-        ),
-        link: "/admin/documents/sets",
-      },
-      {
-        name: (
-          <div className="flex">
-            <ZoomInIconSkeleton className="text-text-700" size={18} />
-            <div className="ml-1">Explorer</div>
-          </div>
-        ),
-        link: "/admin/documents/explorer",
-      },
-      {
-        name: (
-          <div className="flex">
-            <ThumbsUpIconSkeleton className="text-text-700" size={18} />
-            <div className="ml-1">Feedback</div>
-          </div>
-        ),
-        link: "/admin/documents/feedback",
-      },
-    ],
-  },
-  {
-    name: "Custom Assistants",
-    items: [
-      {
-        name: (
-          <div className="flex">
-            <AssistantsIconSkeleton className="text-text-700" size={18} />
-            <div className="ml-1">Assistants</div>
-          </div>
-        ),
-        link: "/admin/assistants",
-      },
-      ...(!isCurator
-        ? [
+    {
+      name: "Connectors",
+      items: [
+        {
+          name: (
+            <div className="flex">
+              <NotebookIconSkeleton className="text-text-700" size={18} />
+              <div className="ml-1">Existing Connectors</div>
+            </div>
+          ),
+          link: "/admin/indexing/status",
+        },
+        {
+          name: (
+            <div className="flex">
+              <ConnectorIconSkeleton className="text-text-700" size={18} />
+              <div className="ml-1.5">Add Connector</div>
+            </div>
+          ),
+          link: "/admin/add-connector",
+        },
+      ],
+    },
+    {
+      name: "Document Management",
+      items: [
+        {
+          name: (
+            <div className="flex">
+              <DocumentSetIconSkeleton className="text-text-700" size={18} />
+              <div className="ml-1">Document Sets</div>
+            </div>
+          ),
+          link: "/admin/documents/sets",
+        },
+        {
+          name: (
+            <div className="flex">
+              <ZoomInIconSkeleton className="text-text-700" size={18} />
+              <div className="ml-1">Explorer</div>
+            </div>
+          ),
+          link: "/admin/documents/explorer",
+        },
+        {
+          name: (
+            <div className="flex">
+              <ThumbsUpIconSkeleton className="text-text-700" size={18} />
+              <div className="ml-1">Feedback</div>
+            </div>
+          ),
+          link: "/admin/documents/feedback",
+        },
+      ],
+    },
+    {
+      name: "Custom Assistants",
+      items: [
+        {
+          name: (
+            <div className="flex">
+              <AssistantsIconSkeleton className="text-text-700" size={18} />
+              <div className="ml-1">Assistants</div>
+            </div>
+          ),
+          link: "/admin/assistants",
+        },
+        ...(!isCurator
+          ? [
             {
               name: (
                 <div className="flex">
@@ -134,9 +134,9 @@ const collections = (
               link: "/admin/actions",
             },
           ]
-        : []),
-      ...(enableEnterprise
-        ? [
+          : []),
+        ...(enableEnterprise
+          ? [
             {
               name: (
                 <div className="flex">
@@ -147,11 +147,11 @@ const collections = (
               link: "/admin/standard-answer",
             },
           ]
-        : []),
-    ],
-  },
-  ...(isCurator
-    ? [
+          : []),
+      ],
+    },
+    ...(isCurator
+      ? [
         {
           name: "User Management",
           items: [
@@ -167,9 +167,9 @@ const collections = (
           ],
         },
       ]
-    : []),
-  ...(!isCurator
-    ? [
+      : []),
+    ...(!isCurator
+      ? [
         {
           name: "Configuration",
           items: [
@@ -217,19 +217,19 @@ const collections = (
             },
             ...(enableEnterprise
               ? [
-                  {
-                    name: (
-                      <div className="flex">
-                        <GroupsIconSkeleton
-                          className="text-text-700"
-                          size={18}
-                        />
-                        <div className="ml-1">Groups</div>
-                      </div>
-                    ),
-                    link: "/admin/groups",
-                  },
-                ]
+                {
+                  name: (
+                    <div className="flex">
+                      <GroupsIconSkeleton
+                        className="text-text-700"
+                        size={18}
+                      />
+                      <div className="ml-1">Groups</div>
+                    </div>
+                  ),
+                  link: "/admin/groups",
+                },
+              ]
               : []),
             {
               name: (
@@ -253,53 +253,53 @@ const collections = (
         },
         ...(enableEnterprise
           ? [
-              {
-                name: "Performance",
-                items: [
-                  {
-                    name: (
-                      <div className="flex">
-                        <FiActivity className="text-text-700" size={18} />
-                        <div className="ml-1">Usage Statistics</div>
-                      </div>
-                    ),
-                    link: "/admin/performance/usage",
-                  },
-                  ...(settings?.settings.query_history_type !== "disabled"
-                    ? [
-                        {
-                          name: (
-                            <div className="flex">
-                              <DatabaseIconSkeleton
-                                className="text-text-700"
-                                size={18}
-                              />
-                              <div className="ml-1">Query History</div>
-                            </div>
-                          ),
-                          link: "/admin/performance/query-history",
-                        },
-                      ]
-                    : []),
-                  ...(!enableCloud
-                    ? [
-                        {
-                          name: (
-                            <div className="flex">
-                              <FiBarChart2
-                                className="text-text-700"
-                                size={18}
-                              />
-                              <div className="ml-1">Custom Analytics</div>
-                            </div>
-                          ),
-                          link: "/admin/performance/custom-analytics",
-                        },
-                      ]
-                    : []),
-                ],
-              },
-            ]
+            {
+              name: "Performance",
+              items: [
+                {
+                  name: (
+                    <div className="flex">
+                      <FiActivity className="text-text-700" size={18} />
+                      <div className="ml-1">Usage Statistics</div>
+                    </div>
+                  ),
+                  link: "/admin/performance/usage",
+                },
+                ...(settings?.settings.query_history_type !== "disabled"
+                  ? [
+                    {
+                      name: (
+                        <div className="flex">
+                          <DatabaseIconSkeleton
+                            className="text-text-700"
+                            size={18}
+                          />
+                          <div className="ml-1">Query History</div>
+                        </div>
+                      ),
+                      link: "/admin/performance/query-history",
+                    },
+                  ]
+                  : []),
+                ...(!enableCloud
+                  ? [
+                    {
+                      name: (
+                        <div className="flex">
+                          <FiBarChart2
+                            className="text-text-700"
+                            size={18}
+                          />
+                          <div className="ml-1">Custom Analytics</div>
+                        </div>
+                      ),
+                      link: "/admin/performance/custom-analytics",
+                    },
+                  ]
+                  : []),
+              ],
+            },
+          ]
           : []),
         {
           name: "Settings",
@@ -315,41 +315,41 @@ const collections = (
             },
             ...(enableEnterprise
               ? [
-                  {
-                    name: (
-                      <div className="flex">
-                        <PaintingIconSkeleton
-                          className="text-text-700"
-                          size={18}
-                        />
-                        <div className="ml-1">Whitelabeling</div>
-                      </div>
-                    ),
-                    link: "/admin/whitelabeling",
-                  },
-                ]
+                {
+                  name: (
+                    <div className="flex">
+                      <PaintingIconSkeleton
+                        className="text-text-700"
+                        size={18}
+                      />
+                      <div className="ml-1">Whitelabeling</div>
+                    </div>
+                  ),
+                  link: "/admin/whitelabeling",
+                },
+              ]
               : []),
             ...(enableCloud
               ? [
-                  {
-                    name: (
-                      <div className="flex">
-                        <MdOutlineCreditCard
-                          className="text-text-700"
-                          size={18}
-                        />
-                        <div className="ml-1">Billing</div>
-                      </div>
-                    ),
-                    link: "/admin/billing",
-                  },
-                ]
+                {
+                  name: (
+                    <div className="flex">
+                      <MdOutlineCreditCard
+                        className="text-text-700"
+                        size={18}
+                      />
+                      <div className="ml-1">Billing</div>
+                    </div>
+                  ),
+                  link: "/admin/billing",
+                },
+              ]
               : []),
           ],
         },
       ]
-    : []),
-];
+      : []),
+  ];
 
 export function ClientLayout({
   user,
@@ -394,21 +394,21 @@ export function ClientLayout({
 
       {settings?.settings.application_status ===
         ApplicationStatus.PAYMENT_REMINDER && (
-        <div className="fixed top-2 left-1/2 transform -translate-x-1/2 bg-amber-400 dark:bg-amber-500 text-gray-900 dark:text-gray-100 p-4 rounded-lg shadow-lg z-50 max-w-md text-center">
-          <strong className="font-bold">Warning:</strong> Your trial ends in
-          less than 5 days and no payment method has been added.
-          <div className="mt-2">
-            <Link href="/admin/billing">
-              <Button
-                variant="default"
-                className="bg-amber-600 hover:bg-amber-700 text-white"
-              >
-                Update Billing Information
-              </Button>
-            </Link>
+          <div className="fixed top-2 left-1/2 transform -translate-x-1/2 bg-amber-400 dark:bg-amber-500 text-gray-900 dark:text-gray-100 p-4 rounded-lg shadow-lg z-50 max-w-md text-center">
+            <strong className="font-bold">Warning:</strong> Your trial ends in
+            less than 5 days and no payment method has been added.
+            <div className="mt-2">
+              <Link href="/admin/billing">
+                <Button
+                  variant="default"
+                  className="bg-amber-600 hover:bg-amber-700 text-white"
+                >
+                  Update Billing Information
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       <div className="default-scrollbar flex-none text-text-settings-sidebar bg-background-sidebar dark:bg-[#000] w-[250px] overflow-x-hidden z-20 pt-2 pb-8 h-full border-r border-border dark:border-none miniscroll overflow-auto">
         <AdminSidebar

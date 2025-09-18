@@ -499,9 +499,8 @@ export const AIMessage = ({
         ${removePadding && "!pl-24 -mt-12"}`}
     >
       <div
-        className={`mx-auto ${
-          shared ? "w-full" : "w-[90%]"
-        }  max-w-message-max`}
+        className={`mx-auto ${shared ? "w-full" : "w-[90%]"
+          }  max-w-message-max`}
       >
         <div className={`lg:mr-12 ${!shared && "mobile:ml-0 md:ml-8"}`}>
           <div className="flex items-start">
@@ -594,12 +593,11 @@ export const AIMessage = ({
                       docs &&
                       docs.length > 0 && (
                         <div
-                          className={`mobile:hidden ${
-                            (query ||
-                              toolCall?.tool_name ===
-                                INTERNET_SEARCH_TOOL_NAME) &&
+                          className={`mobile:hidden ${(query ||
+                            toolCall?.tool_name ===
+                            INTERNET_SEARCH_TOOL_NAME) &&
                             "mt-2"
-                          }  -mx-8 w-full mb-4 flex relative`}
+                            }  -mx-8 w-full mb-4 flex relative`}
                         >
                           <div className="w-full">
                             <div className="px-8 flex gap-x-2">
@@ -635,12 +633,11 @@ export const AIMessage = ({
                     {userKnowledgeFiles && userKnowledgeFiles.length > 0 && (
                       <div
                         key={10}
-                        className={`mobile:hidden ${
-                          (query ||
-                            toolCall?.tool_name ===
-                              INTERNET_SEARCH_TOOL_NAME) &&
+                        className={`mobile:hidden ${(query ||
+                          toolCall?.tool_name ===
+                          INTERNET_SEARCH_TOOL_NAME) &&
                           "mt-2"
-                        }  -mx-8 w-full mb-4 flex relative`}
+                          }  -mx-8 w-full mb-4 flex relative`}
                       >
                         <div className="w-full">
                           <div className="px-8 flex gap-x-2">
@@ -653,9 +650,9 @@ export const AIMessage = ({
                                     relevantDocument={docs?.find(
                                       (doc) =>
                                         doc.document_id ===
-                                          `FILE_CONNECTOR__${file.file_id}` ||
+                                        `FILE_CONNECTOR__${file.file_id}` ||
                                         doc.document_id ===
-                                          `USER_FILE_CONNECTOR__${file.file_id}`
+                                        `USER_FILE_CONNECTOR__${file.file_id}`
                                     )}
                                     key={ind}
                                     document={file}
@@ -740,14 +737,14 @@ export const AIMessage = ({
                                   handlePrevious={() => {
                                     onMessageSelection(
                                       otherMessagesCanSwitchTo[
-                                        currentMessageInd - 1
+                                      currentMessageInd - 1
                                       ]
                                     );
                                   }}
                                   handleNext={() => {
                                     onMessageSelection(
                                       otherMessagesCanSwitchTo[
-                                        currentMessageInd + 1
+                                      currentMessageInd + 1
                                       ]
                                     );
                                   }}
@@ -803,12 +800,10 @@ export const AIMessage = ({
                         className={`
                         absolute -bottom-5
                         z-10
-                        invisible ${
-                          (isHovering || settings?.isMobile) && "!visible"
-                        }
-                        opacity-0 ${
-                          (isHovering || settings?.isMobile) && "!opacity-100"
-                        }
+                        invisible ${(isHovering || settings?.isMobile) && "!visible"
+                          }
+                        opacity-0 ${(isHovering || settings?.isMobile) && "!opacity-100"
+                          }
                         flex md:flex-row gap-x-0.5 bg-background-125/40 -mx-1.5 p-1.5 rounded-lg
                         `}
                       >
@@ -822,14 +817,14 @@ export const AIMessage = ({
                                   handlePrevious={() => {
                                     onMessageSelection(
                                       otherMessagesCanSwitchTo[
-                                        currentMessageInd - 1
+                                      currentMessageInd - 1
                                       ]
                                     );
                                   }}
                                   handleNext={() => {
                                     onMessageSelection(
                                       otherMessagesCanSwitchTo[
-                                        currentMessageInd + 1
+                                      currentMessageInd + 1
                                       ]
                                     );
                                   }}
@@ -1029,9 +1024,8 @@ export const HumanMessage = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`text-user-text mx-auto ${
-          shared ? "w-full" : "w-[90%]"
-        } max-w-[790px]`}
+        className={`text-user-text mx-auto ${shared ? "w-full" : "w-[90%]"
+          } max-w-[790px]`}
       >
         <div className="xl:ml-8">
           <div className="flex flex-col desktop:mr-4">
@@ -1154,9 +1148,9 @@ export const HumanMessage = ({
                   <>
                     <div className="ml-auto flex items-center mr-1 mt-2 h-fit mb-auto">
                       {onEdit &&
-                      isHovered &&
-                      !isEditing &&
-                      (!files || files.length === 0) ? (
+                        isHovered &&
+                        !isEditing &&
+                        (!files || files.length === 0) ? (
                         <TooltipProvider delayDuration={1000}>
                           <Tooltip>
                             <TooltipTrigger>
@@ -1177,14 +1171,13 @@ export const HumanMessage = ({
                     </div>
 
                     <div
-                      className={`${
-                        !(
-                          onEdit &&
-                          isHovered &&
-                          !isEditing &&
-                          (!files || files.length === 0)
-                        ) && "ml-auto"
-                      } relative text-text flex-none max-w-[70%] mb-auto whitespace-break-spaces rounded-3xl bg-user px-5 py-2.5`}
+                      className={`${!(
+                        onEdit &&
+                        isHovered &&
+                        !isEditing &&
+                        (!files || files.length === 0)
+                      ) && "ml-auto"
+                        } relative text-text flex-none max-w-[70%] mb-auto whitespace-break-spaces rounded-3xl bg-user px-5 py-2.5`}
                     >
                       {content}
                     </div>
@@ -1192,9 +1185,9 @@ export const HumanMessage = ({
                 ) : (
                   <>
                     {onEdit &&
-                    isHovered &&
-                    !isEditing &&
-                    (!files || files.length === 0) ? (
+                      isHovered &&
+                      !isEditing &&
+                      (!files || files.length === 0) ? (
                       <div className="my-auto">
                         <Hoverable
                           icon={FiEdit2}

@@ -12,12 +12,14 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from onyx.configs.constants import MessageType
-from onyx.db.models import ChatMessage
 from onyx.db.models import ChatMessageFeedback
-from onyx.db.models import ChatSession
+from onyx.db.models import UserRole
 from onyx.db.models import Persona
 from onyx.db.models import User
-from onyx.db.models import UserRole
+from onyx.db.models import ChatMessage
+from onyx.db.models import ChatSession
+from onyx.db.models import TokenRecord 
+from onyx.db.models import User__UserGroup
 
 
 def fetch_query_analytics(
@@ -357,3 +359,67 @@ def user_can_view_assistant_stats(
 
     persona = db_session.execute(stmt).scalar_one_or_none()
     return persona is not None
+
+def fetch_daily_token_usage_by_model(
+    db_session: Session,
+    start: datetime.datetime,
+    end: datetime.datetime,
+    user_id: UUID | None = None,
+) -> list[dict]:
+    stmt = (
+        select(
+            cast(TokenRecord.timestamp, Date).label("date"),
+            TokenRecord.model_used.label("model_used"),
+            func.sum(TokenRecord.token_count).label("total_tokens")
+        )
+        .where(TokenRecord.timestamp >= start)
+        .where(TokenRecord.timestamp <= end)
+    )
+
+    if user_id:
+        stmt = stmt.where(TokenRecord.user_id == user_id)
+
+    stmt = stmt.group_by(
+        cast(TokenRecord.timestamp, Date),
+        TokenRecord.model_used
+    ).order_by(
+        cast(TokenRecord.timestamp, Date),
+        TokenRecord.model_used
+    )
+
+    rows = db_session.execute(stmt).all()
+    return [
+        {
+            "date": row.date,
+            "model_used": row.model_used,
+            "total_tokens": row.total_tokens
+        }
+        for row in rows
+    ]
+
+def log_token_usage(
+    db_session: Session,
+    user_id: UUID,
+    chat_session_id: UUID,
+    message_id: int,
+    model_used: str,
+    token_count: int,
+    message_type: str, 
+):
+    # Fetch user_group_id from mapping table
+    user_group_id = db_session.execute(
+        select(User__UserGroup.user_group_id)
+        .where(User__UserGroup.user_id == user_id)
+    ).scalar()
+
+    record = TokenRecord(
+        user_id=user_id,
+        user_group_id=user_group_id,
+        chat_session_id=chat_session_id,
+        message_id=message_id,
+        model_used=model_used,
+        token_count=token_count,
+        message_type=message_type.name if hasattr(message_type, "name") else str(message_type).upper(),
+    )
+    db_session.add(record)
+    db_session.commit()

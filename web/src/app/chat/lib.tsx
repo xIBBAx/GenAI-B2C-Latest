@@ -212,6 +212,7 @@ export async function* sendMessage({
     chat_session_id: chatSessionId,
     parent_message_id: parentMessageId,
     message: message,
+    // message: `${message.trim()} /no_think`,
     // just use the default prompt for the assistant.
     // should remove this in the future, as we don't support multiple prompts for a
     // single assistant anyways
@@ -224,24 +225,24 @@ export async function* sendMessage({
     regenerate,
     retrieval_options: !documentsAreSelected
       ? {
-          run_search: queryOverride || forceSearch ? "always" : "auto",
-          real_time: true,
-          filters: filters,
-        }
+        run_search: queryOverride || forceSearch ? "always" : "auto",
+        real_time: true,
+        filters: filters,
+      }
       : null,
     query_override: queryOverride,
     prompt_override: systemPromptOverride
       ? {
-          system_prompt: systemPromptOverride,
-        }
+        system_prompt: systemPromptOverride,
+      }
       : null,
     llm_override:
       temperature || modelVersion
         ? {
-            temperature,
-            model_provider: modelProvider,
-            model_version: modelVersion,
-          }
+          temperature,
+          model_provider: modelProvider,
+          model_version: modelVersion,
+        }
         : null,
     use_existing_user_message: useExistingUserMessage,
     use_agentic_search: useLanggraph ?? false,
@@ -495,11 +496,11 @@ export function processRawChatHistory(
       // this is identical to what is computed at streaming time
       ...(messageInfo.message_type === "assistant"
         ? {
-            retrievalType: retrievalType,
-            query: messageInfo.rephrased_query,
-            documents: messageInfo?.context_docs?.top_documents || [],
-            citations: messageInfo?.citations || {},
-          }
+          retrievalType: retrievalType,
+          query: messageInfo.rephrased_query,
+          documents: messageInfo?.context_docs?.top_documents || [],
+          citations: messageInfo?.citations || {},
+        }
         : {}),
       toolCall: messageInfo.tool_call,
       parentMessageId: messageInfo.parent_message,
@@ -673,8 +674,7 @@ export function buildChatUrl(
   const finalSearchParams: string[] = [];
   if (chatSessionId) {
     finalSearchParams.push(
-      `${
-        search ? SEARCH_PARAM_NAMES.SEARCH_ID : SEARCH_PARAM_NAMES.CHAT_ID
+      `${search ? SEARCH_PARAM_NAMES.SEARCH_ID : SEARCH_PARAM_NAMES.CHAT_ID
       }=${chatSessionId}`
     );
   }

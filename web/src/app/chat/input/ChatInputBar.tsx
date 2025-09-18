@@ -5,7 +5,7 @@ import { ChatInputOption } from "./ChatInputOption";
 import { Persona } from "@/app/admin/assistants/interfaces";
 import LLMPopover from "./LLMPopover";
 import { InputPrompt } from "@/app/chat/interfaces";
-
+import { FiSettings } from "react-icons/fi";
 import { FilterManager, getDisplayNameForModel, LlmManager } from "@/lib/hooks";
 import { useChatContext } from "@/components/context/ChatContext";
 import { ChatFileType, FileDescriptor } from "../interfaces";
@@ -197,6 +197,7 @@ interface ChatInputBarProps {
   retrievalEnabled: boolean;
   proSearchEnabled: boolean;
   setProSearchEnabled: (proSearchEnabled: boolean) => void;
+  setShowPopup: (show: boolean) => void;
 }
 
 export function ChatInputBar({
@@ -227,6 +228,7 @@ export function ChatInputBar({
   llmManager,
   proSearchEnabled,
   setProSearchEnabled,
+  setShowPopup,
 }: ChatInputBarProps) {
   const { user } = useUser();
   const {
@@ -451,10 +453,9 @@ export function ChatInputBar({
                 {assistantTagOptions.map((currentAssistant, index) => (
                   <button
                     key={index}
-                    className={`px-2 ${
-                      tabbingIconIndex == index &&
+                    className={`px-2 ${tabbingIconIndex == index &&
                       "bg-neutral-200 dark:bg-neutral-800"
-                    } rounded items-center rounded-lg content-start flex gap-x-1 py-2 w-full hover:bg-neutral-200/90 dark:hover:bg-neutral-800/90 cursor-pointer`}
+                      } rounded items-center rounded-lg content-start flex gap-x-1 py-2 w-full hover:bg-neutral-200/90 dark:hover:bg-neutral-800/90 cursor-pointer`}
                     onClick={() => {
                       updatedTaggedAssistant(currentAssistant);
                     }}
@@ -474,10 +475,9 @@ export function ChatInputBar({
                 <a
                   key={assistantTagOptions.length}
                   target="_self"
-                  className={`${
-                    tabbingIconIndex == assistantTagOptions.length &&
+                  className={`${tabbingIconIndex == assistantTagOptions.length &&
                     "bg-neutral-200 dark:bg-neutral-800"
-                  } rounded rounded-lg px-3 flex gap-x-1 py-2 w-full items-center hover:bg-neutral-200/90 dark:hover:bg-neutral-800/90 cursor-pointer`}
+                    } rounded rounded-lg px-3 flex gap-x-1 py-2 w-full items-center hover:bg-neutral-200/90 dark:hover:bg-neutral-800/90 cursor-pointer`}
                   href="/assistants/new"
                 >
                   <FiPlus size={17} />
@@ -497,10 +497,9 @@ export function ChatInputBar({
                   (currentPrompt: InputPrompt, index: number) => (
                     <button
                       key={index}
-                      className={`px-2 ${
-                        tabbingIconIndex == index &&
+                      className={`px-2 ${tabbingIconIndex == index &&
                         "bg-background-dark/75 dark:bg-neutral-800/75"
-                      } rounded content-start flex gap-x-1 py-1.5 w-full hover:bg-background-dark/90 dark:hover:bg-neutral-800/90 cursor-pointer`}
+                        } rounded content-start flex gap-x-1 py-1.5 w-full hover:bg-background-dark/90 dark:hover:bg-neutral-800/90 cursor-pointer`}
                       onClick={() => {
                         updateInputPrompt(currentPrompt);
                       }}
@@ -516,10 +515,9 @@ export function ChatInputBar({
                 <a
                   key={filteredPrompts.length}
                   target="_self"
-                  className={`${
-                    tabbingIconIndex == filteredPrompts.length &&
+                  className={`${tabbingIconIndex == filteredPrompts.length &&
                     "bg-background-dark/75 dark:bg-neutral-800/75"
-                  } px-3 flex gap-x-1 py-2 w-full rounded-lg items-center hover:bg-background-dark/90 dark:hover:bg-neutral-800/90 cursor-pointer`}
+                    } px-3 flex gap-x-1 py-2 w-full rounded-lg items-center hover:bg-background-dark/90 dark:hover:bg-neutral-800/90 cursor-pointer`}
                   href="/chat/input-prompts"
                 >
                   <FiPlus size={17} />
@@ -588,11 +586,10 @@ export function ChatInputBar({
                 text-base
                 leading-6
                 placeholder:text-input-text
-                ${
-                  textAreaRef.current &&
+                ${textAreaRef.current &&
                   textAreaRef.current.scrollHeight > MAX_INPUT_HEIGHT
-                    ? "overflow-y-auto mt-2"
-                    : ""
+                  ? "overflow-y-auto mt-2"
+                  : ""
                 }
                 whitespace-normal
                 break-word
@@ -637,196 +634,206 @@ export function ChatInputBar({
               filterManager.selectedDocumentSets.length > 0 ||
               filterManager.selectedTags.length > 0 ||
               filterManager.selectedSources.length > 0) && (
-              <div className="flex bg-input-background gap-x-.5 px-2">
-                <div className="flex gap-x-1 px-2 overflow-visible overflow-x-scroll items-end miniscroll">
-                  {filterManager.selectedTags &&
-                    filterManager.selectedTags.map((tag, index) => (
+                <div className="flex bg-input-background gap-x-.5 px-2">
+                  <div className="flex gap-x-1 px-2 overflow-visible overflow-x-scroll items-end miniscroll">
+                    {filterManager.selectedTags &&
+                      filterManager.selectedTags.map((tag, index) => (
+                        <SourceChip
+                          key={index}
+                          icon={<TagIcon size={12} />}
+                          title={`#${tag.tag_key}_${tag.tag_value}`}
+                          onRemove={() => {
+                            filterManager.setSelectedTags(
+                              filterManager.selectedTags.filter(
+                                (t) => t.tag_key !== tag.tag_key
+                              )
+                            );
+                          }}
+                        />
+                      ))}
+
+                    {/* This is excluding image types because they get rendered differently via currentMessageFiles.map
+                  Seems quite hacky ... all rendering should probably be done in one place? */}
+                    {selectedFiles.map(
+                      (file) =>
+                        !currentMessageFileIds.has(
+                          String(file.file_id || file.id)
+                        ) && (
+                          <SourceChip
+                            key={file.id}
+                            icon={<FileIcon size={16} />}
+                            title={file.name}
+                            onRemove={() => removeSelectedFile(file)}
+                          />
+                        )
+                    )}
+                    {selectedFolders.map((folder) => (
                       <SourceChip
-                        key={index}
-                        icon={<TagIcon size={12} />}
-                        title={`#${tag.tag_key}_${tag.tag_value}`}
-                        onRemove={() => {
-                          filterManager.setSelectedTags(
-                            filterManager.selectedTags.filter(
-                              (t) => t.tag_key !== tag.tag_key
-                            )
-                          );
-                        }}
+                        key={folder.id}
+                        icon={<FolderIcon size={16} />}
+                        title={folder.name}
+                        onRemove={() => removeSelectedFolder(folder)}
                       />
                     ))}
-
-                  {/* This is excluding image types because they get rendered differently via currentMessageFiles.map
-                  Seems quite hacky ... all rendering should probably be done in one place? */}
-                  {selectedFiles.map(
-                    (file) =>
-                      !currentMessageFileIds.has(
-                        String(file.file_id || file.id)
-                      ) && (
+                    {filterManager.timeRange && (
+                      <SourceChip
+                        truncateTitle={false}
+                        key="time-range"
+                        icon={<CalendarIcon size={12} />}
+                        title={`${getFormattedDateRangeString(
+                          filterManager.timeRange.from,
+                          filterManager.timeRange.to
+                        )}`}
+                        onRemove={() => {
+                          filterManager.setTimeRange(null);
+                        }}
+                      />
+                    )}
+                    {filterManager.selectedDocumentSets.length > 0 &&
+                      filterManager.selectedDocumentSets.map((docSet, index) => (
                         <SourceChip
-                          key={file.id}
-                          icon={<FileIcon size={16} />}
-                          title={file.name}
-                          onRemove={() => removeSelectedFile(file)}
+                          key={`doc-set-${index}`}
+                          icon={<DocumentIcon2 size={16} />}
+                          title={docSet}
+                          onRemove={() => {
+                            filterManager.setSelectedDocumentSets(
+                              filterManager.selectedDocumentSets.filter(
+                                (ds) => ds !== docSet
+                              )
+                            );
+                          }}
+                        />
+                      ))}
+                    {filterManager.selectedSources.length > 0 &&
+                      filterManager.selectedSources.map((source, index) => (
+                        <SourceChip
+                          key={`source-${index}`}
+                          icon={
+                            <SourceIcon
+                              sourceType={source.internalName}
+                              iconSize={16}
+                            />
+                          }
+                          title={source.displayName}
+                          onRemove={() => {
+                            filterManager.setSelectedSources(
+                              filterManager.selectedSources.filter(
+                                (s) => s.internalName !== source.internalName
+                              )
+                            );
+                          }}
+                        />
+                      ))}
+                    {selectedDocuments.length > 0 && (
+                      <SourceChip
+                        key="selected-documents"
+                        onClick={() => {
+                          toggleDocumentSidebar();
+                        }}
+                        icon={<FileIcon size={16} />}
+                        title={`${selectedDocuments.length} selected`}
+                        onRemove={removeDocs}
+                      />
+                    )}
+                    {currentMessageFiles.map((file, index) =>
+                      file.type === ChatFileType.IMAGE ? (
+                        <SourceChip
+                          key={`file-${index}`}
+                          icon={
+                            file.isUploading ? (
+                              <FiLoader className="animate-spin" />
+                            ) : (
+                              <img
+                                className="h-full py-.5 object-cover rounded-lg bg-background cursor-pointer"
+                                src={buildImgUrl(file.id)}
+                                alt={file.name || "Uploaded image"}
+                              />
+                            )
+                          }
+                          title={file.name || "File" + file.id}
+                          onRemove={() => {
+                            setCurrentMessageFiles(
+                              currentMessageFiles.filter(
+                                (fileInFilter) => fileInFilter.id !== file.id
+                              )
+                            );
+                          }}
+                        />
+                      ) : (
+                        <SourceChip
+                          key={`file-${index}`}
+                          icon={<FileIcon className="text-red-500" size={16} />}
+                          title={file.name || "File"}
+                          onRemove={() => {
+                            setCurrentMessageFiles(
+                              currentMessageFiles.filter(
+                                (fileInFilter) => fileInFilter.id !== file.id
+                              )
+                            );
+                          }}
                         />
                       )
-                  )}
-                  {selectedFolders.map((folder) => (
-                    <SourceChip
-                      key={folder.id}
-                      icon={<FolderIcon size={16} />}
-                      title={folder.name}
-                      onRemove={() => removeSelectedFolder(folder)}
-                    />
-                  ))}
-                  {filterManager.timeRange && (
-                    <SourceChip
-                      truncateTitle={false}
-                      key="time-range"
-                      icon={<CalendarIcon size={12} />}
-                      title={`${getFormattedDateRangeString(
-                        filterManager.timeRange.from,
-                        filterManager.timeRange.to
-                      )}`}
-                      onRemove={() => {
-                        filterManager.setTimeRange(null);
-                      }}
-                    />
-                  )}
-                  {filterManager.selectedDocumentSets.length > 0 &&
-                    filterManager.selectedDocumentSets.map((docSet, index) => (
-                      <SourceChip
-                        key={`doc-set-${index}`}
-                        icon={<DocumentIcon2 size={16} />}
-                        title={docSet}
-                        onRemove={() => {
-                          filterManager.setSelectedDocumentSets(
-                            filterManager.selectedDocumentSets.filter(
-                              (ds) => ds !== docSet
-                            )
-                          );
-                        }}
-                      />
-                    ))}
-                  {filterManager.selectedSources.length > 0 &&
-                    filterManager.selectedSources.map((source, index) => (
-                      <SourceChip
-                        key={`source-${index}`}
-                        icon={
-                          <SourceIcon
-                            sourceType={source.internalName}
-                            iconSize={16}
-                          />
-                        }
-                        title={source.displayName}
-                        onRemove={() => {
-                          filterManager.setSelectedSources(
-                            filterManager.selectedSources.filter(
-                              (s) => s.internalName !== source.internalName
-                            )
-                          );
-                        }}
-                      />
-                    ))}
-                  {selectedDocuments.length > 0 && (
-                    <SourceChip
-                      key="selected-documents"
-                      onClick={() => {
-                        toggleDocumentSidebar();
-                      }}
-                      icon={<FileIcon size={16} />}
-                      title={`${selectedDocuments.length} selected`}
-                      onRemove={removeDocs}
-                    />
-                  )}
-                  {currentMessageFiles.map((file, index) =>
-                    file.type === ChatFileType.IMAGE ? (
-                      <SourceChip
-                        key={`file-${index}`}
-                        icon={
-                          file.isUploading ? (
-                            <FiLoader className="animate-spin" />
-                          ) : (
-                            <img
-                              className="h-full py-.5 object-cover rounded-lg bg-background cursor-pointer"
-                              src={buildImgUrl(file.id)}
-                              alt={file.name || "Uploaded image"}
-                            />
-                          )
-                        }
-                        title={file.name || "File" + file.id}
-                        onRemove={() => {
-                          setCurrentMessageFiles(
-                            currentMessageFiles.filter(
-                              (fileInFilter) => fileInFilter.id !== file.id
-                            )
-                          );
-                        }}
-                      />
-                    ) : (
-                      <SourceChip
-                        key={`file-${index}`}
-                        icon={<FileIcon className="text-red-500" size={16} />}
-                        title={file.name || "File"}
-                        onRemove={() => {
-                          setCurrentMessageFiles(
-                            currentMessageFiles.filter(
-                              (fileInFilter) => fileInFilter.id !== file.id
-                            )
-                          );
-                        }}
-                      />
-                    )
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             <div className="flex pr-4 pb-2 justify-between bg-input-background items-center w-full ">
               <div className="space-x-1 flex  px-4 ">
                 <ChatInputOption
                   flexPriority="stiff"
-                  name="File"
-                  Icon={FiPlusCircle}
+                  name={selectedAssistant?.name === "Legacy Search" ? "Configure" : "File"}
+                  Icon={selectedAssistant?.name === "Legacy Search" ? FiSettings : FiPlusCircle}
                   onClick={() => {
-                    toggleDocSelection();
+                    if (selectedAssistant?.name === "Legacy Search") {
+                      setShowPopup(true);
+                    } else {
+                      toggleDocSelection();
+                    }
                   }}
-                  tooltipContent={"Upload files and attach user files"}
-                />
-
-                <LLMPopover
-                  llmProviders={llmProviders}
-                  llmManager={llmManager}
-                  requiresImageGeneration={false}
-                  currentAssistant={selectedAssistant}
-                  trigger={
-                    <button
-                      className="dark:text-white text-black focus:outline-none"
-                      data-testid="llm-popover-trigger"
-                    >
-                      <ChatInputOption
-                        minimize
-                        toggle
-                        flexPriority="stiff"
-                        name={getDisplayNameForModel(
-                          llmManager?.currentLlm.modelName || "Models"
-                        )}
-                        Icon={getProviderIcon(
-                          llmManager?.currentLlm.provider || "anthropic",
-                          llmManager?.currentLlm.modelName ||
-                            "claude-3-5-sonnet-20240620"
-                        )}
-                        tooltipContent="Switch models"
-                      />
-                    </button>
+                  tooltipContent={
+                    selectedAssistant?.name === "Legacy Search"
+                      ? "Configure"
+                      : "Upload files and attach user files"
                   }
                 />
+
+                {!["Case Analysis", "Deep Search", "Legacy Search"].includes(selectedAssistant?.name) && (
+                  <LLMPopover
+                    llmProviders={llmProviders}
+                    llmManager={llmManager}
+                    requiresImageGeneration={false}
+                    currentAssistant={selectedAssistant}
+                    trigger={
+                      <button
+                        className="dark:text-white text-black focus:outline-none"
+                        data-testid="llm-popover-trigger"
+                      >
+                        <ChatInputOption
+                          minimize
+                          toggle
+                          flexPriority="stiff"
+                          name={getDisplayNameForModel(
+                            llmManager?.currentLlm.modelName || "Models"
+                          )}
+                          Icon={getProviderIcon(
+                            llmManager?.currentLlm.provider || "anthropic",
+                            llmManager?.currentLlm.modelName || "claude-3-5-sonnet-20240620"
+                          )}
+                          tooltipContent="Switch models"
+                        />
+                      </button>
+                    }
+                  />
+                )}
+
 
                 {retrievalEnabled && (
                   <FilterPopup
                     availableSources={availableSources}
                     availableDocumentSets={
                       selectedAssistant.document_sets &&
-                      selectedAssistant.document_sets.length > 0
+                        selectedAssistant.document_sets.length > 0
                         ? selectedAssistant.document_sets
                         : availableDocumentSets
                     }
@@ -853,15 +860,14 @@ export function ChatInputBar({
                 )}
                 <button
                   id="onyx-chat-input-send-button"
-                  className={`cursor-pointer ${
-                    chatState == "streaming" ||
+                  className={`cursor-pointer ${chatState == "streaming" ||
                     chatState == "toolBuilding" ||
                     chatState == "loading"
-                      ? chatState != "streaming"
-                        ? "bg-neutral-500 dark:bg-neutral-400 "
-                        : "bg-neutral-900 dark:bg-neutral-50"
-                      : "bg-red-200"
-                  } h-[22px] w-[22px] rounded-full`}
+                    ? chatState != "streaming"
+                      ? "bg-neutral-500 dark:bg-neutral-400 "
+                      : "bg-neutral-900 dark:bg-neutral-50"
+                    : "bg-red-200"
+                    } h-[22px] w-[22px] rounded-full`}
                   onClick={() => {
                     if (chatState == "streaming") {
                       stopGenerating();
@@ -871,8 +877,8 @@ export function ChatInputBar({
                   }}
                 >
                   {chatState == "streaming" ||
-                  chatState == "toolBuilding" ||
-                  chatState == "loading" ? (
+                    chatState == "toolBuilding" ||
+                    chatState == "loading" ? (
                     <StopGeneratingIcon
                       size={8}
                       className="text-neutral-50 dark:text-neutral-900 m-auto text-white flex-none"
@@ -880,11 +886,10 @@ export function ChatInputBar({
                   ) : (
                     <SendIcon
                       size={22}
-                      className={`text-neutral-50 dark:text-neutral-900 p-1 my-auto rounded-full ${
-                        chatState == "input" && message
-                          ? "bg-neutral-900 dark:bg-neutral-50"
-                          : "bg-neutral-500 dark:bg-neutral-400"
-                      }`}
+                      className={`text-neutral-50 dark:text-neutral-900 p-1 my-auto rounded-full ${chatState == "input" && message
+                        ? "bg-neutral-900 dark:bg-neutral-50"
+                        : "bg-neutral-500 dark:bg-neutral-400"
+                        }`}
                     />
                   )}
                 </button>

@@ -1,21 +1,24 @@
 import io
+import tempfile
+from PyPDF2 import PdfReader # type: ignore
+import ocrmypdf
 import time
 from datetime import datetime
 from datetime import timedelta
 from typing import List
 
 import requests
-import sqlalchemy.exc
+import sqlalchemy.exc # type: ignore
 from bs4 import BeautifulSoup
-from fastapi import APIRouter
-from fastapi import Depends
-from fastapi import File
-from fastapi import Form
-from fastapi import HTTPException
-from fastapi import Query
-from fastapi import UploadFile
-from pydantic import BaseModel
-from sqlalchemy.orm import Session
+from fastapi import APIRouter # type: ignore
+from fastapi import Depends # type: ignore
+from fastapi import File # type: ignore
+from fastapi import Form # type: ignore
+from fastapi import HTTPException # type: ignore
+from fastapi import Query # type: ignore
+from fastapi import UploadFile # type: ignore
+from pydantic import BaseModel # type: ignore
+from sqlalchemy.orm import Session # type: ignore
 
 from onyx.auth.users import current_user
 from onyx.configs.constants import DocumentSource
@@ -48,8 +51,50 @@ from onyx.server.user_documents.models import UserFileSnapshot
 from onyx.server.user_documents.models import UserFolderSnapshot
 from onyx.utils.logger import setup_logger
 from shared_configs.contextvars import get_current_tenant_id
+from starlette.datastructures import UploadFile as StarletteUploadFile # type: ignore
+import uuid
+from onyx.file_processing.extract_file_text import extract_file_text  # If this is not the correct path, check your OCR text extraction function
+from onyx.file_store.file_store import get_default_file_store
+from onyx.configs.constants import FileOrigin
 
 logger = setup_logger()
+
+def apply_ocr_if_needed(upload_file: UploadFile) -> UploadFile:
+    if not upload_file.filename.lower().endswith(".pdf"):
+        return upload_file  # Skip non-PDFs
+
+    try:
+        upload_file.file.seek(0)
+        pdf_reader = PdfReader(upload_file.file)
+        has_text = any(page.extract_text() for page in pdf_reader.pages)
+    except Exception:
+        has_text = False
+
+    if has_text:
+        upload_file.file.seek(0)
+        return upload_file  # No OCR needed
+
+    # Apply OCR
+    upload_file.file.seek(0)
+    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as input_tmp:
+        input_tmp.write(upload_file.file.read())
+        input_path = input_tmp.name
+
+    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as output_tmp:
+        output_path = output_tmp.name
+
+    try:
+        ocrmypdf.ocr(input_path, output_path, force_ocr=True)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"OCR failed: {str(e)}")
+
+    with open(output_path, "rb") as f:
+        ocred_content = f.read()
+
+    return StarletteUploadFile(
+        filename=upload_file.filename,
+        file=io.BytesIO(ocred_content),
+    )
 
 router = APIRouter()
 
@@ -154,8 +199,35 @@ def upload_user_files(
 
     try:
         # Use our consolidated function that handles indexing properly
+        processed_files = [apply_ocr_if_needed(file) for file in files]
+        
+        file_store = get_default_file_store(db_session)
+
+        for original_file, processed_file in zip(files, processed_files):
+            if processed_file.filename.lower().endswith(".pdf") and processed_file != original_file:
+                try:
+                    processed_file.file.seek(0)
+                    extracted_text = extract_file_text(processed_file.file, processed_file.filename)
+                    if extracted_text.strip():
+                        text_filename = processed_file.filename.rsplit(".", 1)[0] + "_text.txt"
+                        file_store.save_file(
+                            file_name=str(uuid.uuid4()),
+                            content=io.BytesIO(extracted_text.encode("utf-8")),
+                            display_name=text_filename,
+                            file_origin=FileOrigin.CHAT_UPLOAD,  # Use this instead of CONNECTOR
+                            file_type="text/plain",
+                        )
+                except Exception as e:
+                    logger.warning(f"Could not extract OCR text for {processed_file.filename}: {str(e)}")
+                    
+        for pf in processed_files:
+            try:
+                pf.file.seek(0)
+            except Exception:
+                logger.warning(f"Could not reset file pointer for: {pf.filename}")
+        
         user_files = upload_files_to_user_files_with_indexing(
-            files, folder_id or RECENT_DOCS_FOLDER_ID, user, db_session
+            processed_files, folder_id or RECENT_DOCS_FOLDER_ID, user, db_session
         )
 
         return [UserFileSnapshot.from_model(user_file) for user_file in user_files]
