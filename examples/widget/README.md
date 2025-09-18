@@ -1,4 +1,4 @@
-# Onyx Chat Bot Widget
+# Techpeek AI Chat Bot Widget
 
 Note: The widget requires a Techpeek AI API key, which is a paid (cloud/enterprise) feature.
 

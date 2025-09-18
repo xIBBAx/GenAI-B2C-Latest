@@ -11,9 +11,9 @@ The idea is that each test can use the manager class to create (.create()) a "te
 
 ## Instructions for Running Integration Tests Locally
 
-1. Launch onyx (using Docker or running with a debugger), ensuring the API server is running on port 8080.
+1. Launch Techpeek AI (using Docker or running with a debugger), ensuring the API server is running on port 8080.
    - If you'd like to set environment variables, you can do so by creating a `.env` file in the onyx/backend/tests/integration/ directory.
-   - Onyx MUST be launched with AUTH_TYPE=basic and ENABLE_PAID_ENTERPRISE_EDITION_FEATURES=true
+   - Techpeek AI MUST be launched with AUTH_TYPE=basic and ENABLE_PAID_ENTERPRISE_EDITION_FEATURES=true
 2. Navigate to `onyx/backend`.
 3. Run the following command in the terminal:
    ```sh
@@ -34,7 +34,7 @@ navigate to `backend/tests/integration/mock_services` and run
 docker compose -f docker-compose.mock-it-services.yml -p mock-it-services-stack up -d
 ```
 You will have to modify the networks section of the docker-compose file to `<your stack name>_default` if you brought up the standard
-onyx services with a name different from the default `onyx-stack`.
+Techpeek AI services with a name different from the default `onyx-stack`.
 
 ## Guidelines for Writing Integration Tests
 
